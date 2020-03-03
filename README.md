@@ -8,13 +8,7 @@ Coronavirus reverberates through news cycles around the world, with varying leve
 
 A challenge given the extremely fluid global situation surrounding coronavirus (not to mention the possibility that some government reporting agencies may not be completely truthful in their statistics reporting), is finding a trustworthy data source that is frequently updated and acceessible (for free) via API.  Luckily, researchers at Johns Hopkins University and elsewhere have quickly created exactly that!  Note: if you are aware of other or better API sources for similar information, please get in contact with me.  
 
-
-using this API now: https://coronavirus.app/get-latest
-
-DEPRECATED:
-* [Informal docs here](https://dev.to/pipedream/http-api-for-latest-wuhan-coronavirus-2019-ncov-data-20jj)
-* [sample JSON API response](https://coronavirus.m.pipedream.net/)
-* [example table here](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports/02-25-2020.csv)
+  * [example table here](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports/02-25-2020.csv)
 
 
 ## Existing Similar Solutions
