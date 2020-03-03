@@ -33,6 +33,7 @@
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
     "d3": "^5.15.0",
+    "d3-color-legend": "^1.2.4",
     "express": "^4.17.1",
     "fibers": "^4.0.2",
     "file-loader": "^5.1.0",

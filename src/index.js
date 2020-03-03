@@ -1,6 +1,8 @@
 import "./styles/index.scss";
 import {getYesterdaysDate} from './scripts/date_util';
-
+import {makeBarChart} from './scripts/d3_bar_chart';
+import { makeHorzBarChart} from './scripts/stacked_horz_bar_chart';
+import { makeHorzBarGraph} from './scripts/horz_bar_graph';
 
 // ** DATA: ** // 
 // these are aggregated files of all cases, deaths, and recoveries from https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series
@@ -16,6 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
     card.innerHTML = `<h2>As of ${getYesterdaysDate()}</h2>`;
     document.body.append(card);
 
+
     // CONFIRMED CASES
     const confirmedContainer = document.createElement("div");
     confirmedContainer.classList.add("container");
@@ -25,7 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             data.forEach(row => {
                 // console.log to see the whole object and how to manipulate it
-                console.log(row);
+                // console.log(row);
 
 
                 let rowRender = document.createElement("div");
@@ -64,10 +67,26 @@ window.addEventListener("DOMContentLoaded", () => {
                 let rowRender = document.createElement("div");
                 rowRender.innerHTML = `<p>${row['Country/Region']} - ${row['Province/State']} - ${row[getYesterdaysDate()]} </p>`
                 recoveredContainer.append(rowRender);
+
             })
         })
+    
+        document.body.append(recoveredContainer);
+        
+        // placeholders playing around with d3:
+        d3.selectAll("h1").style("color", "purple")
+        d3.selectAll("h2").style("color", "blue")
 
-    document.body.append(recoveredContainer);
+        makeBarChart();
+
+        // this one is an example found online
+        // makeHorzBarChart();
+    
+    
+        // this is the real one
+        makeHorzBarGraph();
 
 
+        // stacked chart
+        // https://observablehq.com/@d3/stacked-horizontal-bar-chart
 });
