@@ -1,0 +1,92 @@
+console.log('if you see this app.js ran');
+
+// from Collin's file:
+const express = require("express");
+const app = express();
+const path = require("path");
+const fetch = require("node-fetch");
+const PORT = process.env.PORT || 8000; // process.env accesses heroku's environment variables
+
+// app.use(express.static("dist"));
+
+// app.get("/", (request, res) => {
+//     res.sendFile(path.join(__dirname, "./dist/index.html"));
+// });
+
+
+
+
+// ** DATA: ** // 
+// these are aggregated files of all cases, deaths, and recoveries from https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series
+
+// CONFIRMED CASES: https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv
+// DEATHS: https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv
+// RECOVERED: https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv
+
+
+
+
+// ALL THIS BELOW I DONT THINK I NEED ANYMORE
+
+
+// // API source: https://coronavirus.app/get-latest
+// // create a search route
+// app.get("/search", (request, response) => {
+//     // is this .json needed below?
+//     fetch(`https://coronavirus.app/get-latest.json?q=${request.query.string}`)
+//     .then(response => {
+//         return response.text();
+//     })
+//     .then(body => {
+//         let results = JSON.parse(body);
+//         console.log(results);
+//         response.send(results);
+//     });
+// });
+
+// app.listen(PORT, () => {
+//     console.log(__dirname);
+//     console.log(`listening on ${PORT}`);
+// });
+
+
+// JESSE: don't need this currently
+// // create route to get single book by its isbn
+// app.get("/books/:isbn", (request, response) => {
+//     // make api call using fetch
+//     fetch(
+//         `http://openlibrary.org/api/books?bibkeys=ISBN:${request.params.isbn}&format=json&jscmd=data`
+//     )
+//         .then(response => {
+//             return response.text();
+//         })
+//         .then(body => {
+//             let results = JSON.parse(body);
+//             console.log(results); // logs to server
+//             response.send(results); // sends to frontend
+//         });
+// });
+
+
+// JESSE: from previous files:
+
+// app.get("/test", (req, res) => res.json({ mes: "this is a test proxy route" }));
+
+// // API source: https://coronavirus.app/get-latest
+
+
+
+// app.get('/api', function (req, res) {
+//     request('https://coronavirus.app/get-latest', function (error, response, body) {
+//         if (!error && response.statusCode === 200) {
+//             console.log(body);
+//             res.send(body);
+//         }
+//     })
+// })
+
+
+// // I don't believe this is necessary anymore with this new webpack setup:
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, './index.html'))
+// })
