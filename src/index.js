@@ -3,6 +3,7 @@ import {getYesterdaysDate} from './scripts/date_util';
 import {makeBarChart} from './scripts/d3_bar_chart';
 import { makeHorzBarChart} from './scripts/stacked_horz_bar_chart';
 import { makeHorzBarGraph} from './scripts/horz_bar_graph';
+import { generateData} from './scripts/data_manipulation';
 
 // ** DATA: ** // 
 // these are aggregated files of all cases, deaths, and recoveries from https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series
@@ -79,12 +80,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
         makeBarChart();
 
+        generateData();
+
         // this one is an example found online
         // makeHorzBarChart();
     
     
         // this is the real one
-        makeHorzBarGraph();
+        // makeHorzBarGraph();
 
 
         // stacked chart

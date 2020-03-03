@@ -1,8 +1,8 @@
 // modeled on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
-
-// https://bl.ocks.org/Andrew-Reid/0aedd5f3fb8b099e3e10690bd38bd458
-
 // helpful tutorial: https://www.youtube.com/watch?v=6Xynj_pBybc
+
+// unclear if this is needed or not:
+import { legend } from "d3-color-legend"
 
 
 // visual of what I'm trying to achieve: https://docs.google.com/drawings/d/1f7Ad1zM_NhMkzkeBrxh1P67TwTov48Dgw5hvn9PxBmg/edit
@@ -34,10 +34,6 @@ d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
         // [
         //     "Province/State", "Country/Region", "Lat", "Long", "1/22/20", "1/23/20", "1/24/20", "1/25/20", "1/26/20", "1/27/20", "1/28/20", "1/29/20", ...
         // ]
-
-
-
-
 
 
     })
@@ -76,6 +72,37 @@ export const makeHorzBarGraph = () => {
         .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 
+    // DATA NOT YET DEFINED
+    // this just copied and pasted so far.  neeed to add rows and columns to d3 object
+    series = d3.stack()
+        .keys(data.columns.slice(1))
+        (data)
+        .map(d => (d.forEach(v => v.key = d.key), d))
+
+
+
+    color = d3.scaleOrdinal()
+        .domain(series.map(d => d.key))
+        .range(d3.schemeSpectral[series.length])
+        .unknown("#ccc")
+
+    xAxis = g => g
+        .attr("transform", `translate(0,${margin.top})`)
+        .call(d3.axisTop(x).ticks(width / 100, "s"))
+        .call(g => g.selectAll(".domain").remove())
+
+    yAxis = g => g
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y).tickSizeOuter(0))
+        .call(g => g.selectAll(".domain").remove())
+
+    formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+    height = data.length * 25 + margin.top + margin.bottom
+
+    margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
+
+
     // dataArr
     // desired format:
     // [
@@ -91,4 +118,6 @@ export const makeHorzBarGraph = () => {
     // [
     //     "Province/State", "Country/Region", "Lat", "Long", "1/22/20", "1/23/20", "1/24/20", "1/25/20", "1/26/20", "1/27/20", "1/28/20", "1/29/20", ...
     // ]
+
+
 }
