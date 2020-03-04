@@ -18,6 +18,10 @@ export const makeHorzBarGraph = (data) => {
     let keysWithoutColumn = Object.keys(data).slice(0, -1);
     let valuesWithoutColumn = Object.values(data).slice(0, -1);
 
+    for (let index = 0; index < valuesWithoutColumn.length; index++) {
+        Object.assign(valuesWithoutColumn[index], { "Country/Region": keysWithoutColumn[index]});
+    }
+
     var y = d3.scaleBand()			// x = d3.scaleBand()	
         .rangeRound([0, svgHeight])	// .rangeRound([0, width])
         .paddingInner(0.05)
@@ -29,40 +33,80 @@ export const makeHorzBarGraph = (data) => {
     var z = d3.scaleOrdinal()
         .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-
-
-    // this just copied and pasted so far.  neeed to add rows and columns to d3 object
+    // neeed to add rows and columns to d3 object
     // https://observablehq.com/@lwthatcher/energy-well-stacks-using-d3
 
+
+    let formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+    let margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
+
+    let height = valuesWithoutColumn.length * 25 + margin.top + margin.bottom
+
+
+    var svgWidth = 500;
+    var svgHeight = 300;
+
+    // explore order options later: https://github.com/d3/d3-shape/blob/master/README.md#stack
+    // let stack = d3.stack()
+    //     .keys(["totalCases", "totalDeaths", "totalRecoveries"])
+    //     .order(d3.stackOrderNone)
+    //     .offset(d3.stackOffsetNone)
+
+    // let series = stack(valuesWithoutColumn);
+
+    // HEAVILY MODELED FROM EXAMPLE:
+    // series appears to match example structure perfectly
     let series = d3.stack()
         .keys(["totalCases", "totalDeaths", "totalRecoveries"])
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone)
-    
-    // let series = d3.stack()
-    //     .keys(data.columns.slice(1))
-    //     debugger
-    //     keysWithoutColumn.map(key => {
-    //         debugger
+        (valuesWithoutColumn)
+        .map(d => (d.forEach(v => v.key = d.key), d))
+        // these .order and .offset don't work here but apparently are the default behavior anyways?
+        // .order(d3.stackOrderNone)
+        // .offset(d3.stackOffsetNone)
 
-    //         data[key].map(d => {
-    //             debugger
-    //             d.forEach(v => v.key = d.key), d
-    //             debugger
-    //         })    
-    //     })
-        
-        // (data)
-        // .map(d => (d.forEach(v => v.key = d.key), d))
+    let color = d3.scaleOrdinal()
+        .domain(series.map(d => d.key))
+        .range(d3.schemeSpectral[series.length])
+        .unknown("#ccc")
 
-    // color = d3.scaleOrdinal()
-    //     .domain(series.map(d => d.key))
-    //     .range(d3.schemeSpectral[series.length])
-    //     .unknown("#ccc")
+    debugger
+    // hardcoding svgWidth for now
+    let svg = d3.select("#horzBarChart")
+        .attr("viewBox", [0, 0, svgWidth, svgHeight])
+        .append("g")
+        .selectAll("g")
+        .data(series)
+        .join("g")
+            .attr("fill", d => color(d.key)) // d.key = "totalCases" etc
+        .selectAll("rect")
+        .data(d => d)
+        .join("rect")
+            .attr("x", d => {
+                // debugger
+                // d[0] = 0 for all d's I think
+                x(d[0])})
+            // replacing: .attr("y", (d, i) => y(d.data.name))
+            .attr("y", (d, i) => {
+                // seems to be correct
+                y(d.data["Country/Region"])})
+            .attr("width", d => {
+                x(d[1]) - x(d[0])})
+            .attr("height", 20)
+            // () => {
+            //     debugger
+            //     return y.bandwidth()})
+        .append("title")
+        .text(d => {
+            // formatValue might be off somehow?
+            `${d.data["Country/Region"]} ${d.key}
+        ${formatValue(d.key)}`});
+
+        debugger
 
     let xAxis = g => g
         .attr("transform", `translate(0,${margin.top})`)
-        .call(d3.axisTop(x).ticks(width / 100, "s"))
+        .call(d3.axisTop(x).ticks(svgWidth / 100, "s"))
         .call(g => g.selectAll(".domain").remove())
 
     let yAxis = g => g
@@ -70,47 +114,11 @@ export const makeHorzBarGraph = (data) => {
         .call(d3.axisLeft(y).tickSizeOuter(0))
         .call(g => g.selectAll(".domain").remove())
 
-    let formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
-
-    let margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
-
-    let height = data.length * 25 + margin.top + margin.bottom
-
-
-    var svgWidth = 500;
-    var svgHeight = 300;
-
-    // hardcoding svgWidth for now
-    let svg = d3.select("#horzBarChart")
-        .attr("viewBox", [0, 0, svgWidth, svgHeight])
-
-    // not sure if this works:
-    // "g" here represents a graph element I guess
-
-    debugger
-    // this isn't working at all:
-    svg.append("g")
-        .selectAll("g")
-        .data(series)
-        .join("g")
-            .attr("fill", d => color(d.key))
-        .data(d => d)
-        .join("rect")
-            .attr("x", d => x(d[0]))
-            // replacing: .attr("y", (d, i) => y(d.data.name))
-            .attr("y", (d, i) => y(d['Country/Region']))
-            .attr("width", d => x(d[1]) - x(d[0]))
-            .attr("height", y.bandwidth())
-        .append("title")
-        .text(d => `${d.data.name} ${d.key}
-        ${formatValue(d['Country/Region'])}`);
-
     svg.append("g")
         .call(xAxis);
 
     svg.append("g")
         .call(yAxis);
     
-
     return svg.node();
 }
