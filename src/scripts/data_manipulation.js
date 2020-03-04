@@ -1,6 +1,7 @@
 // this file to format the CSV files as needed to render as desired in graphs
 
 import {getYesterdaysDate} from './date_util';
+import {makeHorzBarGraph} from './horz_bar_graph';
 
 let dataMaster = {};
 export const generateData = () => {
@@ -40,19 +41,26 @@ export const generateData = () => {
             .then(data => {
                 data.forEach(row => {
                     let rowCountryRegion = row['Country/Region'];
-                    debugger
-                    if (dataMaster[rowCountryRegion]) {
-                        debugger
+                    if (dataMaster[rowCountryRegion].totalRecoveries) {
                         dataMaster[rowCountryRegion].totalRecoveries += parseInt(row[getYesterdaysDate()])
                     } else {
-                        debugger
                         dataMaster[rowCountryRegion].totalRecoveries = parseInt(row[getYesterdaysDate()]) 
                     };
                 })
-                debugger
+
+
+                //not sure if invoking makeHorzBarGraph here will cause issue
+                if (dataMaster["Mainland China"].totalRecoveries) {
+                    makeHorzBarGraph(dataMaster);
+                }
             })
         }
     )
+    // .then(() => {
+        // THIS ERRORS OUT due to some syncronicity issue i think
+    //     debugger
+    //     makeHorzBarGraph(dataMaster);
+    // })
 }
 
 

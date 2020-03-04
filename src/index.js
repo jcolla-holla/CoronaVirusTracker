@@ -79,12 +79,10 @@ window.addEventListener("DOMContentLoaded", () => {
         d3.selectAll("h2").style("color", "blue")
 
         makeBarChart();
-
         generateData();
 
         // this one is an example found online
         // makeHorzBarChart();
-    
     
         // this is the real one
         // makeHorzBarGraph();
