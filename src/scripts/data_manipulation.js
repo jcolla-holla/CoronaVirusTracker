@@ -2,6 +2,7 @@
 
 import {getYesterdaysDate} from './date_util';
 import {makeHorzBarGraph} from './horz_bar_graph';
+import {graphAttempt2} from './graph_2';
 
 let dataMaster = {};
 export const generateData = () => {
@@ -48,10 +49,10 @@ export const generateData = () => {
                     };
                 })
 
-
-                //not sure if invoking makeHorzBarGraph here will cause issue
-                if (dataMaster["Mainland China"].totalRecoveries) {
+                if (dataMaster["Mainland China"].totalRecoveries && dataMaster["Mainland China"].totalDeaths) {
                     makeHorzBarGraph(dataMaster);
+                } else {
+                    console.log("totalDeaths or totalRecoveries is empty for some reason refresh again");
                 }
             })
         }

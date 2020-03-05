@@ -3,6 +3,7 @@
 
 // unclear if this is needed or not:
 import { legend } from "d3-color-legend"
+import { ExportToCsv } from 'export-to-csv';
 
 // data
     //  {
@@ -19,106 +20,226 @@ export const makeHorzBarGraph = (data) => {
     let valuesWithoutColumn = Object.values(data).slice(0, -1);
 
     for (let index = 0; index < valuesWithoutColumn.length; index++) {
-        Object.assign(valuesWithoutColumn[index], { "Country/Region": keysWithoutColumn[index]});
+        // avoid double counting cases with adjustedCases
+        let adjustedTotalCases = valuesWithoutColumn[index].totalCases - (valuesWithoutColumn[index].totalRecoveries + valuesWithoutColumn[index].totalDeaths);
+        Object.assign(valuesWithoutColumn[index], { "Country/Region": keysWithoutColumn[index], "casesMinusDeathsAndRecoveries": adjustedTotalCases});
     }
 
-    var y = d3.scaleBand()			// x = d3.scaleBand()	
-        .rangeRound([0, svgHeight])	// .rangeRound([0, width])
-        .paddingInner(0.05)
-        .align(0.1);
+    // starting everything over following: https://observablehq.com/@d3/stacked-horizontal-bar-chart
 
-    var x = d3.scaleLinear()		// y = d3.scaleLinear()
-        .rangeRound([0, svgWidth]);	// .rangeRound([height, 0]);
-
-    var z = d3.scaleOrdinal()
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    // neeed to add rows and columns to d3 object
-    // https://observablehq.com/@lwthatcher/energy-well-stacks-using-d3
-
-
-    let formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
-
-    let margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
-
-    let height = valuesWithoutColumn.length * 25 + margin.top + margin.bottom
-
-
-    var svgWidth = 500;
-    var svgHeight = 300;
-
-    // explore order options later: https://github.com/d3/d3-shape/blob/master/README.md#stack
-    // let stack = d3.stack()
-    //     .keys(["totalCases", "totalDeaths", "totalRecoveries"])
-    //     .order(d3.stackOrderNone)
-    //     .offset(d3.stackOffsetNone)
-
-    // let series = stack(valuesWithoutColumn);
-
-    // HEAVILY MODELED FROM EXAMPLE:
-    // series appears to match example structure perfectly
+    // // HEAVILY MODELED FROM EXAMPLE:
     let series = d3.stack()
-        .keys(["totalCases", "totalDeaths", "totalRecoveries"])
+        .keys(["casesMinusDeathsAndRecoveries", "totalDeaths", "totalRecoveries"])
         (valuesWithoutColumn)
         .map(d => (d.forEach(v => v.key = d.key), d))
+
+        // Width and height of SVG
+        var w = 600;
+        var h = 800;
+        let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
+
+        // numCountries to be used to set height of svg
+        var numCountries = valuesWithoutColumn.length;
+        var maxValue = d3.max(valuesWithoutColumn, function(d) {
+            return +d.totalCases;
+        })
+        var x_axisLength = 500;
+        var y_axisLength = 700;
+
+        // not sure if this will work exactly how I want
+        var xScale = d3.scaleLinear()
+            .domain([0, maxValue])
+            .range([0, x_axisLength])
+
+        var yScale = d3.scaleLinear()
+            .domain([0, numCountries])
+            .range(0, y_axisLength)
+
+
+        // borrowed from: https://bl.ocks.org/Andrew-Reid/0aedd5f3fb8b099e3e10690bd38bd458
+        // var yScale = d3.scaleBand()			// x = d3.scaleBand()	
+        //     .rangeRound([0, height])	// .rangeRound([0, width])
+        //     .paddingInner(0.05)
+        //     .align(0.1);
+
+        // var xScale = d3.scaleLinear()		// y = d3.scaleLinear()
+        //     .rangeRound([0, width]);	// .rangeRound([height, 0]);
+
+        var svg = d3.select("#horzBarChart")
+            .attr("width", w)
+            .attr("height", h)
+            .append("g")
+            .selectAll("g")
+            .data(series)
+            .join("g")
+                .attr("fill", "steelblue")
+            // .data(d => d)
+            .append("rect")
+            // need to loop through series (array of length 3)
+            .attr("x", 20) // this should be ok
+            .attr("y", function(d, i) {
+                // return yScale(d["Province/State"])
+                // hard code to 50 for now
+                return 50;
+            }) 
+            .attr("width", function(d, i) {
+                // this appears correct
+                debugger
+                return d[i][1] - d[i][0] 
+            })
+            .attr("height", 10) //hardcoding this for now,
+            // .attr("height", function(d) {
+            //     yScale(d)}) 
+            .append("title")
+                .text("country")
+    
+    debugger   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const svg = d3.select("#horzBarChart")
+
+    // let margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
+
+    // let height = valuesWithoutColumn.length * 25 + margin.top + margin.bottom
+
+    // var y = d3.scaleBand()			// x = d3.scaleBand()	
+    //     .domain(valuesWithoutColumn.map(d => 
+    //         {   debugger
+    //             d["Country/Region"]}))
+    //     .range([margin.top, height - margin.bottom])
+    //     .padding(0.08)    
+    // // .rangeRound([0, svgHeight])	// .rangeRound([0, width])
+    // //     .paddingInner(0.05)
+    // //     .align(0.1);
+
+    // var x = d3.scaleLinear()		// y = d3.scaleLinear()
+    //     .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
+    //     .range([margin.left, width - margin.right])
+    // // .rangeRound([0, svgWidth]);	// .rangeRound([height, 0]);
+
+    // var z = d3.scaleOrdinal()
+    //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+    // // neeed to add rows and columns to d3 object
+    // // https://observablehq.com/@lwthatcher/energy-well-stacks-using-d3
+
+
+    // let formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+
+
+
+    // var svgWidth = 500;
+    // var svgHeight = 300;
+
+    // // explore order options later: https://github.com/d3/d3-shape/blob/master/README.md#stack
+    // // let stack = d3.stack()
+    // //     .keys(["totalCases", "totalDeaths", "totalRecoveries"])
+    // //     .order(d3.stackOrderNone)
+    // //     .offset(d3.stackOffsetNone)
+
+    // // let series = stack(valuesWithoutColumn);
+
+
+
+
+
+
+
+
+// // just doing this for now to export CSV to play with outside of VSCode
+    // const options = {
+    //     fieldSeparator: ',',
+    //     quoteStrings: '"',
+    //     decimalSeparator: '.',
+    //     showLabels: true,
+    //     showTitle: true,
+    //     title: 'data',
+    //     useTextFile: false,
+    //     useBom: true,
+    //     useKeysAsHeaders: true,
+    //     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    // };
+
+    // const csvExporter = new ExportToCsv(options);
+    // csvExporter.generateCsv(valuesWithoutColumn);
+
+
+
+
+    // csvExporter.generateCsv(series);    
         // these .order and .offset don't work here but apparently are the default behavior anyways?
         // .order(d3.stackOrderNone)
         // .offset(d3.stackOffsetNone)
 
-    let color = d3.scaleOrdinal()
-        .domain(series.map(d => d.key))
-        .range(d3.schemeSpectral[series.length])
-        .unknown("#ccc")
+    // let color = d3.scaleOrdinal()
+    //     .domain(series.map(d => d.key))
+    //     .range(d3.schemeSpectral[series.length])
+    //     .unknown("#ccc")
 
-    debugger
-    // hardcoding svgWidth for now
-    let svg = d3.select("#horzBarChart")
-        .attr("viewBox", [0, 0, svgWidth, svgHeight])
-        .append("g")
-        .selectAll("g")
-        .data(series)
-        .join("g")
-            .attr("fill", d => color(d.key)) // d.key = "totalCases" etc
-        .selectAll("rect")
-        .data(d => d)
-        .join("rect")
-            .attr("x", d => {
-                // debugger
-                // d[0] = 0 for all d's I think
-                x(d[0])})
-            // replacing: .attr("y", (d, i) => y(d.data.name))
-            .attr("y", (d, i) => {
-                // seems to be correct
-                y(d.data["Country/Region"])})
-            .attr("width", d => {
-                x(d[1]) - x(d[0])})
-            .attr("height", 20)
-            // () => {
-            //     debugger
-            //     return y.bandwidth()})
-        .append("title")
-        .text(d => {
-            // formatValue might be off somehow?
-            `${d.data["Country/Region"]} ${d.key}
-        ${formatValue(d.key)}`});
+    // debugger
+    // // hardcoding svgWidth for now
+    // let svg = d3.select("#horzBarChart")
+    //     .attr("viewBox", [0, 0, svgWidth, svgHeight])
+    //     .append("g")
+    //     .selectAll("g")
+    //     .data(series)
+    //     .join("g")
+    //         .attr("fill", d => color(d.key)) // d.key = "totalCases" etc
+    //     .selectAll("rect")
+    //     .data(d => d)
+    //     .join("rect")
+    //         .attr("x", d => {
+    //             debugger
+    //             x(d[0])}
+    //             )
+    //         // replacing: .attr("y", (d, i) => y(d.data.name))
+    //         .attr("y", (d, i) => y(d.data["Country/Region"]))
+    //         .attr("width", d => x(d[1]) - x(d[0]))
+    //         .attr("height", 20)
+    //         // () => {
+    //         //     debugger
+    //         //     return y.bandwidth()})
+    //     .append("title")
+    //     .text(d => `${d.data["Country/Region"]} ${d.key} ${formatValue(d.key)}`);
 
-        debugger
+    //     debugger
 
-    let xAxis = g => g
-        .attr("transform", `translate(0,${margin.top})`)
-        .call(d3.axisTop(x).ticks(svgWidth / 100, "s"))
-        .call(g => g.selectAll(".domain").remove())
+    // let xAxis = g => g
+    //     .attr("transform", `translate(0,${margin.top})`)
+    //     .call(d3.axisTop(x).ticks(svgWidth / 100, "s"))
+    //     .call(g => g.selectAll(".domain").remove())
 
-    let yAxis = g => g
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y).tickSizeOuter(0))
-        .call(g => g.selectAll(".domain").remove())
+    // let yAxis = g => g
+    //     .attr("transform", `translate(${margin.left},0)`)
+    //     .call(d3.axisLeft(y).tickSizeOuter(0))
+    //     .call(g => g.selectAll(".domain").remove())
 
-    svg.append("g")
-        .call(xAxis);
+    // svg.append("g")
+    //     .call(xAxis);
 
-    svg.append("g")
-        .call(yAxis);
-    
-    return svg.node();
-}
+    // svg.append("g")
+    //     .call(yAxis);
+
+    // return svg.node();
