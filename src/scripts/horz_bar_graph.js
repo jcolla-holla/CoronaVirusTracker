@@ -31,18 +31,37 @@ export const makeHorzBarGraph = (data) => {
     let series = d3.stack()
         .keys(["casesMinusDeathsAndRecoveries", "totalDeaths", "totalRecoveries"])
         (valuesWithoutColumn)
-        .map(d => (d.forEach(v => v.key = d.key), d))
+        .map(d => 
+            (d.forEach((v, idx) => {
+                v.key = d.key;
+                v.idx = idx;
+                }
+                ), d)
+            )
+        // .order(d3.stackOrderAscending)
 
         // Width and height of SVG
-        var w = 600;
+        var w = 1600;
         var h = 800;
         let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
 
         // numCountries to be used to set height of svg
         var numCountries = valuesWithoutColumn.length;
-        var maxValue = d3.max(valuesWithoutColumn, function(d) {
-            return +d.totalCases;
-        })
+
+        // China's numbers skews the numbers majorly since it is MUCH larger than other countries. This boolean simply removes it
+        let showChina = false;
+
+        if (showChina) {
+            var numCountries = valuesWithoutColumn.length;
+            var maxValue = d3.max(valuesWithoutColumn, function(d) {
+                return +d.totalCases;
+            })
+        } else {
+            var numCountries = valuesWithoutColumn.length - 1;
+            var maxValue = d3.max(valuesWithoutColumn.slice(1), function (d) {
+                return +d.totalCases;
+            })
+        }
         var x_axisLength = 500;
         var y_axisLength = 700;
 
@@ -53,8 +72,10 @@ export const makeHorzBarGraph = (data) => {
 
         var yScale = d3.scaleLinear()
             .domain([0, numCountries])
-            .range(0, y_axisLength)
+            .range([0, y_axisLength])
+            // .padding(0.08)
 
+ 
 
         // borrowed from: https://bl.ocks.org/Andrew-Reid/0aedd5f3fb8b099e3e10690bd38bd458
         // var yScale = d3.scaleBand()			// x = d3.scaleBand()	
@@ -65,6 +86,8 @@ export const makeHorzBarGraph = (data) => {
         // var xScale = d3.scaleLinear()		// y = d3.scaleLinear()
         //     .rangeRound([0, width]);	// .rangeRound([height, 0]);
 
+        debugger
+
         var svg = d3.select("#horzBarChart")
             .attr("width", w)
             .attr("height", h)
@@ -72,26 +95,32 @@ export const makeHorzBarGraph = (data) => {
             .selectAll("g")
             .data(series)
             .join("g")
-                .attr("fill", "steelblue")
-            // .data(d => d)
-            .append("rect")
             // need to loop through series (array of length 3)
-            .attr("x", 20) // this should be ok
-            .attr("y", function(d, i) {
-                // return yScale(d["Province/State"])
-                // hard code to 50 for now
-                return 50;
-            }) 
-            .attr("width", function(d, i) {
-                // this appears correct
-                debugger
-                return d[i][1] - d[i][0] 
-            })
-            .attr("height", 10) //hardcoding this for now,
-            // .attr("height", function(d) {
-            //     yScale(d)}) 
-            .append("title")
-                .text("country")
+            .selectAll("rect")
+            .data(d => d)
+            .join("rect")
+                .attr("x", 20) // this should be ok
+                .attr("y", function(d) {
+                    // believe this is correct
+                    return yScale(d.idx)
+                }) 
+                .attr("width", function(d, i) {
+                    // this appears correct
+                    return xScale(d[1] - d[0])
+                })
+                .attr("height", 10) //hardcoding this for now,
+                // .attr("height", function(d) {
+                //     yScale(d)}) 
+                .attr("fill", function(d) {
+                    if (d.key === "totalDeaths") {
+                        return "red"; 
+                    } else if (d.key === "totalRecoveries") {
+                        return "green";
+                    }  else {
+                        return "steelblue"
+                    }})
+            // .append("title")
+            //     .text("country")
     
     debugger   
 }
