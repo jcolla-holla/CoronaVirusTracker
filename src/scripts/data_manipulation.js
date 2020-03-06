@@ -4,14 +4,17 @@ import {getYesterdaysDate} from './date_util';
 import {makeHorzBarGraph} from './horz_bar_graph';
 import {graphAttempt2} from './graph_2';
 
-let dataMaster = {};
+
 export const generateData = (excludeChina = false, date = getYesterdaysDate()) => {
+    let dataMaster = {};
     d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
         .then(data => { //TOTAL CASES
             data.forEach(row => {                
                 // ex values (rowCountryRegion):
                 // Thailand  // US  // France
                 let rowCountryRegion = row['Country/Region'];
+
+
 
                 if (dataMaster[rowCountryRegion]) {
                     dataMaster[rowCountryRegion]["Province/State"].push(row["Province/State"]);
@@ -57,17 +60,11 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate()) =
                     makeHorzBarGraph(dataMaster, excludeChina);
                 } else {
                     // something to investigate later - why sometimes not all data is there.  Related likely to syncronicity.  Temporary fix: call function generateData again.
-                    console.log("totalDeaths or totalRecoveries is empty for some reason refresh again");
                     generateData(excludeChina);
                 }
             })
         }
     )
-    // .then(() => {
-        // THIS ERRORS OUT due to some syncronicity issue i think
-    //     debugger
-    //     makeHorzBarGraph(dataMaster);
-    // })
 }
 
 

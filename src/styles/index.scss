@@ -1,19 +1,128 @@
-#barChartExample {
-    background-color: #C7D9D9;  
+#header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#aboveSvg {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 #horzBarChart {
     background-color: whitesmoke;  
 }
 
-#dateSelect {
-    margin-left: 20px;
+.hallOfFameContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
 }
 
-#dateSelect p {
-    margin-left: 30px;
+.hallOfFameWinners {
+    display: flex;
 }
 
-#excludeChina {
-        margin-left: 20px;
+.hallOfFameWinners p {
+    margin: 30px;
+}
+
+#filters {
+    display: flex;
+}
+
+#filters .filtersContainer title {
+    display: flex;
+    font-weight: bold;
+}
+
+#filters .filtersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 40px;
+}
+
+#filters .filtersContainer .bottom {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#filters .filtersContainer .bottom label {
+    margin-left: 40px;
+}
+
+#filters #dateSelect{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#filters #excludeChina{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#htmlLegendContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#htmlLegend {
+    display: flex;
+    border: 1px solid gray;
+    border-radius: 4px;
+    height: 90px;
+    align-items: center;
+}
+
+#htmlLegend section {
+    margin-top: 10px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.confirmedCasesColorCircle {
+    background-color: #264b96;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.recoveriesColorCircle {
+    background-color: #27b376;
+     width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.deathsColorCircle {
+    background-color: #bf212e;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+text {
+    font-size: 14px;
 }

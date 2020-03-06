@@ -7,11 +7,10 @@ import { legend } from "d3-color-legend"
     // Mainland China: {Province/State: Array(31), totalCases: 80026, totalDeaths: 2912, totalRecoveries: 44810}
     // Thailand: { Province / State: Array(1), totalCases: 43, totalDeaths: 1, totalRecoveries: 31 }
     // Japan: { Province / State: Array(1), totalCases: 274, totalDeaths: 6, totalRecoveries: 32 }
+    // ...
     //  }
 
 export const makeHorzBarGraph = (data, excludeChina) => {
-
-
     // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
     data.columns = Object.keys(data["Mainland China"]);
 
@@ -63,12 +62,12 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
 
     // Width and height of SVG 
-    var w = 1000;
+    var w = 1400;
     var h = 1200;
-    let margin = ({ top: 30, right: 10, bottom: 0, left: 80 });
+    let margin = ({ top: 30, right: 10, bottom: 0, left: 120 });
 
     //Width and height of graph itself within SVG
-    var x_axisLength = 900;
+    var x_axisLength = 1250;
     // change y_axisLength to be smaller than h to hide bars with low values
     var y_axisLength = 3800;
             
@@ -92,7 +91,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .style("position", "absolute")
             .style("font-family", "'Open Sans', sans-serif")
             .style("color", "gray")
-            .style("font-size", "12px")
+            .style("font-size", "14px")
             .style("z-index", "10")
             .style("visibility", "hidden");
 
@@ -123,20 +122,18 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                         return "#264b96"
                     }})
                 .on("mouseover", function(d) {
-                    debugger
-                    return tooltip.style("visibility", "visible").text(`${d.data["Country/Region"]} -- ${d.key}: ${d.data[d.key]}`)
+                    // for debugging purposes only
+                    if (d.data["Country/Region"] === "South Korea") {
+                        debugger
+                    }
+                    return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
                 })
                 .on("mousemove", function (d) {
-                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.data["Country/Region"]} -- ${d.key}: ${d.data[d.key]}`);
+                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.key}: ${d.data[d.key]}`);
                 })
                 .on("mouseout", function (d) {
                     return tooltip.style("visibility", "hidden");
                 })
-                // .append("title")
-                //     .text(d => {
-                //         debugger 
-                //         // this isn't put in the right place right now
-                //         return `${d.data["Country/Region"]}`})
                 // // to create a function that makes a country show page
                 // .on("click", countryGraph(d.data["Country/Region"]))
 
