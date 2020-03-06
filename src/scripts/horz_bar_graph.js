@@ -10,6 +10,8 @@ import { legend } from "d3-color-legend"
     //  }
 
 export const makeHorzBarGraph = (data, excludeChina) => {
+
+
     // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
     data.columns = Object.keys(data["Mainland China"]);
 
@@ -62,11 +64,12 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     // Width and height of SVG 
     var w = 1000;
-    var h = 1200;
+    var h = 1000;
     let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
 
     //Width and height of graph itself within SVG
     var x_axisLength = 600;
+    // change y_axisLength to be smaller than h to hide bars with low values
     var y_axisLength = 1000;
             
         var svg = d3.select("#horzBarChart")
@@ -116,6 +119,8 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                         // this isn't put in the right place right now
                         return `${d.data["Country/Region"]} ${d.key}
     ${d.data[d.key]}`});
+                // to create a function that makes a country show page
+                // .on("click", countryGraph(d.data["Country/Region"]))
 
     // let xAxis = g => g
     //     .attr("transform", `translate(0,${margin.top})`)
@@ -125,151 +130,3 @@ export const makeHorzBarGraph = (data, excludeChina) => {
     //     svg.append("g")
     //         .call(xAxis);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // const svg = d3.select("#horzBarChart")
-
-    // let margin = ({ top: 30, right: 10, bottom: 0, left: 30 })
-
-    // let height = valuesWithoutColumn.length * 25 + margin.top + margin.bottom
-
-    // var y = d3.scaleBand()			// x = d3.scaleBand()	
-    //     .domain(valuesWithoutColumn.map(d => 
-    //         {   debugger
-    //             d["Country/Region"]}))
-    //     .range([margin.top, height - margin.bottom])
-    //     .padding(0.08)    
-    // // .rangeRound([0, svgHeight])	// .rangeRound([0, width])
-    // //     .paddingInner(0.05)
-    // //     .align(0.1);
-
-    // var x = d3.scaleLinear()		// y = d3.scaleLinear()
-    //     .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
-    //     .range([margin.left, width - margin.right])
-    // // .rangeRound([0, svgWidth]);	// .rangeRound([height, 0]);
-
-    // var z = d3.scaleOrdinal()
-    //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    // // neeed to add rows and columns to d3 object
-    // // https://observablehq.com/@lwthatcher/energy-well-stacks-using-d3
-
-
-    // let formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
-
-
-
-
-    // var svgWidth = 500;
-    // var svgHeight = 300;
-
-    // // explore order options later: https://github.com/d3/d3-shape/blob/master/README.md#stack
-    // // let stack = d3.stack()
-    // //     .keys(["totalCases", "totalDeaths", "totalRecoveries"])
-    // //     .order(d3.stackOrderNone)
-    // //     .offset(d3.stackOffsetNone)
-
-    // // let series = stack(valuesWithoutColumn);
-
-
-
-
-
-
-
-
-// // just doing this for now to export CSV to play with outside of VSCode
-    // const options = {
-    //     fieldSeparator: ',',
-    //     quoteStrings: '"',
-    //     decimalSeparator: '.',
-    //     showLabels: true,
-    //     showTitle: true,
-    //     title: 'data',
-    //     useTextFile: false,
-    //     useBom: true,
-    //     useKeysAsHeaders: true,
-    //     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    // };
-
-    // const csvExporter = new ExportToCsv(options);
-    // csvExporter.generateCsv(valuesWithoutColumn);
-
-
-
-
-    // csvExporter.generateCsv(series);    
-        // these .order and .offset don't work here but apparently are the default behavior anyways?
-        // .order(d3.stackOrderNone)
-        // .offset(d3.stackOffsetNone)
-
-    // let color = d3.scaleOrdinal()
-    //     .domain(series.map(d => d.key))
-    //     .range(d3.schemeSpectral[series.length])
-    //     .unknown("#ccc")
-
-    // debugger
-    // // hardcoding svgWidth for now
-    // let svg = d3.select("#horzBarChart")
-    //     .attr("viewBox", [0, 0, svgWidth, svgHeight])
-    //     .append("g")
-    //     .selectAll("g")
-    //     .data(series)
-    //     .join("g")
-    //         .attr("fill", d => color(d.key)) // d.key = "totalCases" etc
-    //     .selectAll("rect")
-    //     .data(d => d)
-    //     .join("rect")
-    //         .attr("x", d => {
-    //             debugger
-    //             x(d[0])}
-    //             )
-    //         // replacing: .attr("y", (d, i) => y(d.data.name))
-    //         .attr("y", (d, i) => y(d.data["Country/Region"]))
-    //         .attr("width", d => x(d[1]) - x(d[0]))
-    //         .attr("height", 20)
-    //         // () => {
-    //         //     debugger
-    //         //     return y.bandwidth()})
-    //     .append("title")
-    //     .text(d => `${d.data["Country/Region"]} ${d.key} ${formatValue(d.key)}`);
-
-    //     debugger
-
-    // let xAxis = g => g
-    //     .attr("transform", `translate(0,${margin.top})`)
-    //     .call(d3.axisTop(x).ticks(svgWidth / 100, "s"))
-    //     .call(g => g.selectAll(".domain").remove())
-
-    // let yAxis = g => g
-    //     .attr("transform", `translate(${margin.left},0)`)
-    //     .call(d3.axisLeft(y).tickSizeOuter(0))
-    //     .call(g => g.selectAll(".domain").remove())
-
-    // svg.append("g")
-    //     .call(xAxis);
-
-    // svg.append("g")
-    //     .call(yAxis);
-
-    // return svg.node();

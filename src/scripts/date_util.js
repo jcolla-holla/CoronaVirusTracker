@@ -12,7 +12,26 @@ export const getYesterdaysDate = () => {
     return month + "/" + day + "/" + year;
 }
 
+export const getYesterdaysDateDefault = () => {
+    var dateObj = new Date();                           
+    dateObj.setDate(dateObj.getDate() - 1);
+
+    let day = dateObj.getDate();
+    let month = dateObj.getMonth() + 1;
+    if (day.toString().length === 1) {
+        day = "0" + day;
+    }
+    if (month.toString().length === 1) {
+        month = "0" + month;
+    }
+
+    let year = (dateObj.getYear() + 1900).toString();
+    return year + "-" + month + "-" + day;
+}
+
 export const getDate = (date = null) => {
+    // note: earliest date in data: "1/22/20"
+
     if (date.length === 0) {
         return getYesterdaysDate();
     }

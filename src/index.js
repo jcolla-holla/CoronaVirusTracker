@@ -1,5 +1,5 @@
 import "./styles/index.scss";
-import { getYesterdaysDate, getDate} from './scripts/date_util';
+import { getYesterdaysDate, getDate, getYesterdaysDateDefault} from './scripts/date_util';
 import {makeBarChart} from './scripts/d3_bar_chart';
 import { makeHorzBarChart} from './scripts/stacked_horz_bar_chart';
 import { makeHorzBarGraph} from './scripts/horz_bar_graph';
@@ -44,7 +44,7 @@ function handleCalendar(calendar) {
 window.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.classList.add("card", "center");
-    card.innerHTML = `<h2>As of ${getYesterdaysDate()}</h2>`;
+    // card.innerHTML = `<h2>As of ${getYesterdaysDate()}</h2>`;
     document.body.append(card);
 
     const chinaCheckbox = document.getElementById("chinaCheckbox");
@@ -53,6 +53,9 @@ window.addEventListener("DOMContentLoaded", () => {
     })
 
     const calendarInput = document.getElementById("calendarInput");
+    calendarInput.defaultValue = getYesterdaysDateDefault();
+
+
     calendarInput.addEventListener("change", () => {
         handleCalendar(calendarInput);
     })

@@ -20,14 +20,21 @@
     <h2>Combat hysteria with knowledge</h2>
     <h3>Your friendly neighborhood guide to global pandemic!</h3>
     <div id="app"></div>
-    <label>
-        Exclude China
-        <input type="checkbox" id="chinaCheckbox">
-    </label>
-    <label>
-        Choose Another Date
-        <input type="date" id="calendarInput">
-    </label>
+
+    <div id="filters">
+        <label id="dateSelect">
+            Choose Another Date 
+            <input type="date" id="calendarInput" min="2020-01-22" max="2020-03-05">
+            <p>Note: first date of data availability is January 22, 2020</p>
+        </label>
+        <label id="excludeChina">
+            Exclude China
+            <input type="checkbox" id="chinaCheckbox">
+        </label>
+    </div>
+
+    <h2 id="asOfTitle"></h2>
+
     <svg id="horzBarChart"></svg>
 
     
