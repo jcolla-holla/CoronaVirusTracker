@@ -1,9 +1,6 @@
-// modeled on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
-// helpful tutorial: https://www.youtube.com/watch?v=6Xynj_pBybc
+// modeled heavily on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
 
-// unclear if this is needed or not:
 import { legend } from "d3-color-legend"
-import { ExportToCsv } from 'export-to-csv';
 
 // data
     //  {
@@ -12,9 +9,12 @@ import { ExportToCsv } from 'export-to-csv';
     // Japan: { Province / State: Array(1), totalCases: 274, totalDeaths: 6, totalRecoveries: 32 }
     //  }
 
-export const makeHorzBarGraph = (data) => {
+export const makeHorzBarGraph = (data, excludeChina) => {
     // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
     data.columns = Object.keys(data["Mainland China"]);
+
+    // if any bars were there before, remove them
+    d3.selectAll("g").remove();
 
     let keysWithoutColumn = Object.keys(data).slice(0, -1);
     let valuesWithoutColumn = Object.values(data).slice(0, -1);
@@ -25,104 +25,105 @@ export const makeHorzBarGraph = (data) => {
         Object.assign(valuesWithoutColumn[index], { "Country/Region": keysWithoutColumn[index], "casesMinusDeathsAndRecoveries": adjustedTotalCases});
     }
 
-    // starting everything over following: https://observablehq.com/@d3/stacked-horizontal-bar-chart
-
-    // // HEAVILY MODELED FROM EXAMPLE:
-    let series = d3.stack()
-        .keys(["casesMinusDeathsAndRecoveries", "totalDeaths", "totalRecoveries"])
-        (valuesWithoutColumn)
-        .map(d => 
-            (d.forEach((v, idx) => {
-                v.key = d.key;
-                v.idx = idx;
-                }
-                ), d)
-            )
-        // .order(d3.stackOrderAscending)
-
-        // Width and height of SVG
-        var w = 1600;
-        var h = 800;
-        let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
-
+    //sort by number of total cases so the bar graph shows up as expected
+    valuesWithoutColumn.sort((a, b) => (a.totalCases < b.totalCases ? 1 : -1));
+    
         // numCountries to be used to set height of svg
         var numCountries = valuesWithoutColumn.length;
 
         // China's numbers skews the numbers majorly since it is MUCH larger than other countries. This boolean simply removes it
-        let showChina = false;
+        let removeChina = excludeChina;
 
-        if (showChina) {
-            var numCountries = valuesWithoutColumn.length;
-            var maxValue = d3.max(valuesWithoutColumn, function(d) {
-                return +d.totalCases;
-            })
-        } else {
+        if (removeChina) {
             var numCountries = valuesWithoutColumn.length - 1;
             var maxValue = d3.max(valuesWithoutColumn.slice(1), function (d) {
                 return +d.totalCases;
             })
+            valuesWithoutColumn = valuesWithoutColumn.slice(1);
+        } else {
+            var numCountries = valuesWithoutColumn.length;
+            var maxValue = d3.max(valuesWithoutColumn, function(d) {
+                return +d.totalCases;
+            })
         }
-        var x_axisLength = 500;
-        var y_axisLength = 700;
 
-        // not sure if this will work exactly how I want
+    //the order of the stacks for each country is determined by the order of .keys
+    let series = d3.stack()
+        .keys(["casesMinusDeathsAndRecoveries", "totalRecoveries", "totalDeaths"])
+        (valuesWithoutColumn)
+        .map(d =>
+            (d.forEach((v, idx) => {
+                v.key = d.key;
+                v.idx = idx;
+            }
+            ), d)
+        )
+
+
+    // Width and height of SVG 
+    var w = 1000;
+    var h = 1200;
+    let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
+
+    //Width and height of graph itself within SVG
+    var x_axisLength = 600;
+    var y_axisLength = 1000;
+            
+        var svg = d3.select("#horzBarChart")
+                .attr("width", w)
+                .attr("height", h)
+        
+        const chart = svg.append('g')
+
         var xScale = d3.scaleLinear()
             .domain([0, maxValue])
             .range([0, x_axisLength])
 
-        var yScale = d3.scaleLinear()
-            .domain([0, numCountries])
-            .range([0, y_axisLength])
-            // .padding(0.08)
+        var yScale = d3.scaleBand()
+            .domain(valuesWithoutColumn.map((country, i) => i))
+            .range([margin.top, y_axisLength - margin.bottom])
+            .padding(0.1)
 
- 
-
-        // borrowed from: https://bl.ocks.org/Andrew-Reid/0aedd5f3fb8b099e3e10690bd38bd458
-        // var yScale = d3.scaleBand()			// x = d3.scaleBand()	
-        //     .rangeRound([0, height])	// .rangeRound([0, width])
-        //     .paddingInner(0.05)
-        //     .align(0.1);
-
-        // var xScale = d3.scaleLinear()		// y = d3.scaleLinear()
-        //     .rangeRound([0, width]);	// .rangeRound([height, 0]);
-
-        debugger
-
-        var svg = d3.select("#horzBarChart")
-            .attr("width", w)
-            .attr("height", h)
-            .append("g")
+        chart.append("g")
             .selectAll("g")
             .data(series)
             .join("g")
-            // need to loop through series (array of length 3)
             .selectAll("rect")
+            // need to loop through series (array of length 3)
             .data(d => d)
             .join("rect")
-                .attr("x", 20) // this should be ok
+                .attr("x", function(d) {
+                    return xScale(d[0]) + margin.left
+                })
                 .attr("y", function(d) {
-                    // believe this is correct
                     return yScale(d.idx)
                 }) 
                 .attr("width", function(d, i) {
-                    // this appears correct
                     return xScale(d[1] - d[0])
                 })
-                .attr("height", 10) //hardcoding this for now,
-                // .attr("height", function(d) {
-                //     yScale(d)}) 
+                .attr("height", yScale.bandwidth())
                 .attr("fill", function(d) {
                     if (d.key === "totalDeaths") {
-                        return "red"; 
+                        return "#bf212e"; 
                     } else if (d.key === "totalRecoveries") {
-                        return "green";
+                        return "#27b376";
                     }  else {
-                        return "steelblue"
+                        return "#264b96"
                     }})
-            // .append("title")
-            //     .text("country")
-    
-    debugger   
+                .append("title")
+                    .text(d => {
+                        // debugger 
+                        // this isn't put in the right place right now
+                        return `${d.data["Country/Region"]} ${d.key}
+    ${d.data[d.key]}`});
+
+    // let xAxis = g => g
+    //     .attr("transform", `translate(0,${margin.top})`)
+    //     .call(d3.axisTop(x).ticks(width / 100, "s"))
+    //     .call(g => g.selectAll(".domain").remove())
+
+    //     svg.append("g")
+    //         .call(xAxis);
 }
 
 

@@ -20,15 +20,21 @@
     <h2>Combat hysteria with knowledge</h2>
     <h3>Your friendly neighborhood guide to global pandemic!</h3>
     <div id="app"></div>
-
-    <svg id="horzBarChart">
-
-    </svg>
+    <label>
+        Exclude China
+        <input type="checkbox" id="chinaCheckbox">
+    </label>
+    <label>
+        Choose Another Date
+        <input type="date" id="calendarInput">
+    </label>
+    <svg id="horzBarChart"></svg>
 
     
     <!-- <svg id="barChartExample"></svg> -->
 
     <script>
+       
         // example from: http://duspviz.mit.edu/
 
         // 		var ratData = [40, 100, 60, 40, 70, 60, 20, 40, 100, 60];
