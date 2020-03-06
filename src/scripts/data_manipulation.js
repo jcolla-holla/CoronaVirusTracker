@@ -49,10 +49,9 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate()) =
                     };
                 })
 
+                // a heading that updates w the selected date displayed to user
                 let title = document.getElementById("asOfTitle")
-                debugger
                 title.innerHTML = `As of ${date}`;
-                debugger
 
                 if (dataMaster["Mainland China"].totalRecoveries && dataMaster["Mainland China"].totalDeaths) {
                     makeHorzBarGraph(dataMaster, excludeChina);

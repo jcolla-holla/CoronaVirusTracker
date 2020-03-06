@@ -64,13 +64,13 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     // Width and height of SVG 
     var w = 1000;
-    var h = 1000;
-    let margin = ({ top: 30, right: 10, bottom: 0, left: 30 });
+    var h = 1200;
+    let margin = ({ top: 30, right: 10, bottom: 0, left: 80 });
 
     //Width and height of graph itself within SVG
-    var x_axisLength = 600;
+    var x_axisLength = 900;
     // change y_axisLength to be smaller than h to hide bars with low values
-    var y_axisLength = 1000;
+    var y_axisLength = 3800;
             
         var svg = d3.select("#horzBarChart")
                 .attr("width", w)
@@ -83,9 +83,18 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .range([0, x_axisLength])
 
         var yScale = d3.scaleBand()
-            .domain(valuesWithoutColumn.map((country, i) => i))
+            .domain(valuesWithoutColumn.map((country) => country["Country/Region"]))
             .range([margin.top, y_axisLength - margin.bottom])
             .padding(0.1)
+
+        var tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("font-family", "'Open Sans', sans-serif")
+            .style("color", "gray")
+            .style("font-size", "12px")
+            .style("z-index", "10")
+            .style("visibility", "hidden");
 
         chart.append("g")
             .selectAll("g")
@@ -99,10 +108,10 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     return xScale(d[0]) + margin.left
                 })
                 .attr("y", function(d) {
-                    return yScale(d.idx)
+                    return yScale(d.data["Country/Region"])
                 }) 
                 .attr("width", function(d, i) {
-                    return xScale(d[1] - d[0])
+                    return xScale(d[1]) - xScale(d[0])
                 })
                 .attr("height", yScale.bandwidth())
                 .attr("fill", function(d) {
@@ -113,20 +122,38 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     }  else {
                         return "#264b96"
                     }})
-                .append("title")
-                    .text(d => {
-                        // debugger 
-                        // this isn't put in the right place right now
-                        return `${d.data["Country/Region"]} ${d.key}
-    ${d.data[d.key]}`});
-                // to create a function that makes a country show page
+                .on("mouseover", function(d) {
+                    debugger
+                    return tooltip.style("visibility", "visible").text(`${d.data["Country/Region"]} -- ${d.key}: ${d.data[d.key]}`)
+                })
+                .on("mousemove", function (d) {
+                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.data["Country/Region"]} -- ${d.key}: ${d.data[d.key]}`);
+                })
+                .on("mouseout", function (d) {
+                    return tooltip.style("visibility", "hidden");
+                })
+                // .append("title")
+                //     .text(d => {
+                //         debugger 
+                //         // this isn't put in the right place right now
+                //         return `${d.data["Country/Region"]}`})
+                // // to create a function that makes a country show page
                 // .on("click", countryGraph(d.data["Country/Region"]))
 
-    // let xAxis = g => g
-    //     .attr("transform", `translate(0,${margin.top})`)
-    //     .call(d3.axisTop(x).ticks(width / 100, "s"))
-    //     .call(g => g.selectAll(".domain").remove())
+    let xAxis = g => g
+        .attr("transform", `translate(${margin.left},${margin.top})`)
+        .call(d3.axisTop(xScale).ticks(w / 100, "s"))
+        .call(g => g.selectAll(".domain").remove())
 
-    //     svg.append("g")
-    //         .call(xAxis);
+    svg.append("g")
+        .call(xAxis);
+
+    let yAxis = g => g
+        .attr("transform", `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(yScale).tickSizeOuter(0))
+        .call(g => g.selectAll(".domain").remove())
+
+    svg.append("g")
+        .call(yAxis);
+
 }
