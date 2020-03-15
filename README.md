@@ -1,8 +1,8 @@
-# CoronaVirusTracker
+# [CoronaVirusTracker live link](https://jcolla-holla.github.io/CoronaVirusTracker/)
 
 ## Background
 
-Coronavirus reverberates through news cycles around the world, with varying levels of concern from utter hysteria to total indifference.  The goal of this project, *Coronavirus Tracker*, is to provide a data-centric, interactive overview of the coronavirus spread to counter narratives that are not based in fact/numbers.
+Coronavirus dominates news cycles around the world, with varying levels of concern from utter hysteria to total indifference.  The goal of this project, *Coronavirus Tracker*, is to provide a data-centric, interactive overview of the coronavirus spread to counter narratives that are not based in fact/numbers.
 
 ## Data Source
 
