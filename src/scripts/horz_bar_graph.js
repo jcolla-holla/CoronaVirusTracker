@@ -12,7 +12,7 @@ import { legend } from "d3-color-legend"
 
 export const makeHorzBarGraph = (data, excludeChina) => {
     // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
-    data.columns = Object.keys(data["Mainland China"]);
+    data.columns = Object.keys(data["China"]);
 
     // if any bars were there before, remove them
     d3.selectAll("g").remove();

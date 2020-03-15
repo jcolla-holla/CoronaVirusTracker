@@ -55,8 +55,8 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate()) =
                 // a heading that updates w the selected date displayed to user
                 let title = document.getElementById("asOfTitle")
                 title.innerHTML = `As of ${date}`;
-
-                if (dataMaster["Mainland China"].totalRecoveries && dataMaster["Mainland China"].totalDeaths) {
+                debugger
+                if (dataMaster["China"].totalRecoveries && dataMaster["China"].totalDeaths) {
                     makeHorzBarGraph(dataMaster, excludeChina);
                 } else {
                     // something to investigate later - why sometimes not all data is there.  Related likely to syncronicity.  Temporary fix: call function generateData again.
