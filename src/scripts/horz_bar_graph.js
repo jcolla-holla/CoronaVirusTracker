@@ -122,9 +122,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                         return "#264b96"
                     }})
                 .on("mouseover", function(d) {
-                    // for debugging purposes only
                     if (d.data["Country/Region"] === "South Korea") {
-                        debugger
                     }
                     return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
                 })
@@ -135,7 +133,11 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     return tooltip.style("visibility", "hidden");
                 })
                 // // to create a function that makes a country show page
-                // .on("click", countryGraph(d.data["Country/Region"]))
+                .on("click", function (d) {
+                    // debugger
+                    // next up to update to show country graph
+                    console.log(d.data["Country/Region"]);
+                })
 
     let xAxis = g => g
         .attr("transform", `translate(${margin.left},${margin.top})`)
