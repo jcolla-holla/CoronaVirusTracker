@@ -1,6 +1,7 @@
 // modeled heavily on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
 
 import { legend } from "d3-color-legend"
+import { makeCountryBarChart} from "./country_bar_chart";
 
 // data
     //  {
@@ -12,7 +13,7 @@ import { legend } from "d3-color-legend"
 
 export const makeHorzBarGraph = (data, excludeChina) => {
     // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
-    data.columns = Object.keys(data["China"]);
+    // data.columns = Object.keys(data["China"]);
 
     // if any bars were there before, remove them
     d3.selectAll("g").remove();
@@ -28,6 +29,11 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     //sort by number of total cases so the bar graph shows up as expected
     valuesWithoutColumn.sort((a, b) => (a.totalCases < b.totalCases ? 1 : -1));
+
+    // reduce the number of countries shown to the top 100 with highest cases
+    valuesWithoutColumn = valuesWithoutColumn.slice(0, 50);
+    keysWithoutColumn = keysWithoutColumn.slice(0, 50);
+
     
         // numCountries to be used to set height of svg
         var numCountries = valuesWithoutColumn.length;
@@ -63,13 +69,13 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     // Width and height of SVG 
     var w = 1400;
-    var h = 1200;
-    let margin = ({ top: 30, right: 10, bottom: 0, left: 120 });
+    var h = 1800;
+    let margin = ({ top: 30, right: 10, bottom: 10, left: 150 });
 
     //Width and height of graph itself within SVG
-    var x_axisLength = 1250;
+    var x_axisLength = 1200;
     // change y_axisLength to be smaller than h to hide bars with low values
-    var y_axisLength = 3800;
+    var y_axisLength = 1800;
             
         var svg = d3.select("#horzBarChart")
                 .attr("width", w)
@@ -121,22 +127,18 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     }  else {
                         return "#264b96"
                     }})
-                .on("mouseover", function(d) {
-                    if (d.data["Country/Region"] === "South Korea") {
-                    }
-                    return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
-                })
-                .on("mousemove", function (d) {
-                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.key}: ${d.data[d.key]}`);
-                })
-                .on("mouseout", function (d) {
-                    return tooltip.style("visibility", "hidden");
-                })
+                // .on("mouseover", function(d) {
+                //     return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
+                // })
+                // .on("mousemove", function (d) {
+                //     return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.key}: ${d.data[d.key]}`);
+                // })
+                // .on("mouseout", function (d) {
+                //     return tooltip.style("visibility", "hidden");
+                // })
                 // // to create a function that makes a country show page
                 .on("click", function (d) {
-                    // debugger
-                    // next up to update to show country graph
-                    console.log(d.data["Country/Region"]);
+                    makeCountryBarChart(d.data["Country/Region"] ,d.data["Province/State"]);
                 })
 
     let xAxis = g => g
