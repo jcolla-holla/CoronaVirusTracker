@@ -46,12 +46,10 @@ Existing/similar Solutions:
  ![](mockups/Country%20Show%20Page.png)
  
  ## Architecture and Technologies
-   * [d3.js](https://github.com/d3/d3/wiki)
-   * MongoDB - to store emails and the city associated with them?
-   * maybe something else I should specify??
+   * [D3.js](https://github.com/d3/d3/wiki)
  
- 
- ## Bonus Features
+ ## Will Possibly Add:
+  * Testing data by state in the US using: https://covidtracking.com/api/
   * Sign up your email to get sent when a confirmed case is reported near you
   * Self-diagnosis step by step walkthrough that ends suggesting a specific action, ie "go to the ER", "continue to look for X symptom over the next 7 days", "no need to worry!"
  
