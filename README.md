@@ -46,7 +46,7 @@ Existing/similar Solutions:
  ![](mockups/Country%20Show%20Page.png)
  
  ## Architecture and Technologies
-   * [d3.js](https://github.com/d3/d3/wiki)
+   * [D3.js](https://github.com/d3/d3/wiki)
  
  ## Will Possibly Add:
   * Testing data by state in the US using: https://covidtracking.com/api/
