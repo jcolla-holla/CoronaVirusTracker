@@ -18,6 +18,7 @@
     <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="./dist/main.js"></script>
+    
     <div id=header>
         
         <h1>CoronaVirus Tracker</h1>
@@ -50,7 +51,7 @@
                         <label id="dateSelect">
                             <div class="top">
                                 <p>Choose Another Date</p> 
-                                <input type="date" id="calendarInput" min="2020-01-22" max="2020-03-05">
+                                <input type="date" id="calendarInput" min="2020-01-22">
                             </div>
                         </label>
                         <label id="excludeChina">
@@ -93,7 +94,23 @@
     <a href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
     
     <!-- <svg id="barChartExample"></svg> -->
+    <script>
 
+        var today = new Date();
+        var dd = today.getDate() - 1;
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("calendarInput").setAttribute("max", today)
+
+    </script>
     
 </body>
 
