@@ -12,6 +12,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>COVID-19 Tracker</title>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138209632-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-138209632-3');
+    </script>
+
 </head>
 
 <body>
@@ -92,7 +102,12 @@
 
     </div>
     <div class="dataSource">
-        <a  href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
+        <a target="_blank"href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
+        <p>Site Created By: <a target="_blank" href="https://jessecolligan.com/">Jesse Colligan</a></p>
+        <a target="_blank" class="githubContainer" href="https://github.com/jcolla-holla/CoronaVirusTracker">
+            <img class="github"  src="./mockups/github_PNG20.png" alt="">
+        </a>
+        
     </div>
     <!-- <svg id="barChartExample"></svg> -->
     <script>
@@ -109,7 +124,6 @@
 
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById("calendarInput").setAttribute("max", today)
-
     </script>
     
 </body>

@@ -131,7 +131,23 @@ text {
 .dataSource {
     width: 100%;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    p {
+        margin: 20px;
+    }
+
+    .github {
+        height: 50px;
+        width: 60px;
+        padding-bottom: 30px;
+    }
+
+    .githubContainer {
+        height: 50px;
+        width: 60px;
+    }
 }
 
 .hide {
@@ -142,7 +158,14 @@ text {
     display: flex;
 }
 
+.tooltip {
+    background-color: white;
+    border-radius: 4px;
+    padding: 2px;
+}
+
 //indicates you can click on bar graph
 rect:hover {
     cursor: pointer;
 }
+

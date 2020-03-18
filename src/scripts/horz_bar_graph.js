@@ -167,7 +167,12 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 // // to create a function that makes a country show page
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
-                    makeCountryBarChart(d.data["Country/Region"] ,d.data["Province/State"]);
+                    if (Object.keys(d.data["Province/State"][0]).length === 0) {
+                        debugger
+                        alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
+                    } else {
+                        makeCountryBarChart(d.data["Country/Region"] ,d.data["Province/State"]);
+                    }
                 })
 
     let xAxis = g => g

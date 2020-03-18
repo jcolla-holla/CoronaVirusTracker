@@ -26,9 +26,6 @@ export const makeCountryBarChart = (countryName, countryData) => {
     chinaCheckboxLabel.setAttribute("class", "hide");
     countriesButton.setAttribute("class", "show");
 
-    if (Object.keys(countryData[0]).length === 0) {
-        alert("No state, county, or state-level data currently available for " + countryName)
-    } else {
         // render new country graph
         
         // remove all bars related to all countries
@@ -171,5 +168,4 @@ export const makeCountryBarChart = (countryName, countryData) => {
 
         svg.append("g")
             .call(yAxis);
-    }
 }
