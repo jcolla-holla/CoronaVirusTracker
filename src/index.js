@@ -24,7 +24,9 @@ function handleClick(checkbox) {
     let date = getDate(calendarInput.value);
     let yesterday = getYesterdaysDate()
     // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
-    if (yesterday < date || date < "1/22/20") {
+
+    // NEED TO UPDATE LOGIC TO REFLECT HANDLECALENAR ALSO
+    if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
         date = yesterday;
     }
     if (date.length === 0) {
@@ -47,7 +49,7 @@ function handleCalendar(calendar) {
 
     let yesterday = getYesterdaysDate()
     // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
-    if (yesterday < date || date < "1/22/20" ) {
+    if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
         date = yesterday;
         alert("Valid dates are between yesterday and January 22, 2020.  Showing default: yesterday.")
     }
@@ -82,7 +84,16 @@ window.addEventListener("DOMContentLoaded", () => {
         } else {
             excludeChina = false;
         }
-        generateData(excludeChina, getDate(calendarInput.value));
+
+        let date = getDate(calendarInput.value);
+        let yesterday = getYesterdaysDate()
+        // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
+        if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
+            date = yesterday;
+            calendarInput.value = getYesterdaysDateDefault();
+        }
+
+        generateData(excludeChina, date);
     })
 
 

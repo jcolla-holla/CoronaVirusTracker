@@ -5,7 +5,6 @@ import {makeHorzBarGraph} from './horz_bar_graph';
 import { makeCountryBarChart} from './country_bar_chart';
 
 export const generateData = (excludeChina = false, date = getYesterdaysDate(), countryName = "") => {
-    console.log("data collection ran")
     let dataMaster = {};
     d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
         .then(data => { //TOTAL CASES

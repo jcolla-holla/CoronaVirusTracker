@@ -2,8 +2,6 @@ import {generateData} from './data_manipulation';
 import { getDate, thousands_separators} from './date_util';
 
 export const makeCountryBarChart = (countryName, countryData) => {
-    debugger
-    
     let countryArr = countryData;
     // calendarInput and countriesButton below are used as arguments later on when rendering all countries graph again
     const calendarInput = document.getElementById("calendarInput");
