@@ -23,18 +23,11 @@ Existing/similar Solutions:
   
   
  ## Functionality and MVP
-   * Present Johns Hopkins API data using d3.js
+   * Present Johns Hopkins CSV files data using D3.js
      
    * Filter by:
      * Country - bar graph/calendar of cases and recoveries over time
-     * City - bar graph/calendar of cases and recoveries over time
      * Province/State - bar graph/calendar graph of cases and recoveries over time
-     
-   * Sign up for an email if a case appears in/near your city?  Or is that too backend focused?
-     
-   * Views:
-     * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
-     * Bar graph view - gives a visual of number of new cases and reported recovers, [example](https://observablehq.com/@mbostock/u-s-population-by-age-1850-2000)
      
    
  ## Wireframes
@@ -49,6 +42,7 @@ Existing/similar Solutions:
    * [D3.js](https://github.com/d3/d3/wiki)
  
  ## Will Possibly Add:
+  * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
   * Testing data by state in the US using: https://covidtracking.com/api/
   * Sign up your email to get sent when a confirmed case is reported near you
   * Self-diagnosis step by step walkthrough that ends suggesting a specific action, ie "go to the ER", "continue to look for X symptom over the next 7 days", "no need to worry!"
