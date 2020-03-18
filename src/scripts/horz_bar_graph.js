@@ -12,8 +12,19 @@ import { makeCountryBarChart} from "./country_bar_chart";
     //  }
 
 export const makeHorzBarGraph = (data, excludeChina) => {
-    // set the columns key-value pair of data hardcoded to the columns of Mainland China (which all other countries should share)
-    // data.columns = Object.keys(data["China"]);
+    const countriesButton = document.getElementById("backToCountries")
+    const chinaCheckbox = document.getElementById("chinaCheckbox"); 
+    const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
+    const tooltips = document.getElementsByClassName("tooltip");
+
+    // make sure that tooltips don't persist in buggy way
+    for (let index = 0; index < tooltips.length; index++) {
+        tooltips[index].remove();
+    }
+
+    chinaCheckbox.setAttribute("class", "show");
+    chinaCheckboxLabel.setAttribute("class", "show");
+    countriesButton.setAttribute("class", "hide");
 
     // if any bars were there before, remove them
     d3.selectAll("g").remove();
@@ -94,6 +105,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
         var tooltip = d3.select("body")
             .append("div")
+            .attr("class", "tooltip")
             .style("position", "absolute")
             .style("font-family", "'Open Sans', sans-serif")
             .style("color", "gray")
@@ -127,17 +139,34 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     }  else {
                         return "#264b96"
                     }})
-                // .on("mouseover", function(d) {
-                //     return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
-                // })
-                // .on("mousemove", function (d) {
-                //     return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.key}: ${d.data[d.key]}`);
-                // })
-                // .on("mouseout", function (d) {
-                //     return tooltip.style("visibility", "hidden");
-                // })
+                .on("mouseover", function(d) {
+                    let msg = "";
+                    if (d.key === "casesMinusDeathsAndRecoveries") {
+                        msg = "Unresolved Cases";
+                    } else if (d.key === "totalDeaths") {
+                        msg = "Reported Deaths";
+                    } else if (d.key === "totalRecoveries") {
+                        msg = "Reported Recoveries"
+                    }
+                    return tooltip.style("visibility", "visible").text(`${msg}: ${d.data[d.key]}`)
+                })
+                .on("mousemove", function (d) {
+                    let msg = "";
+                    if (d.key === "casesMinusDeathsAndRecoveries") {
+                        msg = "Unresolved Cases";
+                    } else if (d.key === "totalDeaths") {
+                        msg = "Reported Deaths";
+                    } else if (d.key === "totalRecoveries") {
+                        msg = "Reported Recoveries"
+                    }
+                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${d.data[d.key]}`);
+                })
+                .on("mouseout", function (d) {
+                    return tooltip.style("visibility", "hidden");
+                })
                 // // to create a function that makes a country show page
                 .on("click", function (d) {
+                    tooltip.style("visibility", "hidden");
                     makeCountryBarChart(d.data["Country/Region"] ,d.data["Province/State"]);
                 })
 

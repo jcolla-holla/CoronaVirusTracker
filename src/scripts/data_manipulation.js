@@ -2,8 +2,6 @@
 
 import {getYesterdaysDate} from './date_util';
 import {makeHorzBarGraph} from './horz_bar_graph';
-import {graphAttempt2} from './graph_2';
-
 
 export const generateData = (excludeChina = false, date = getYesterdaysDate()) => {
     let dataMaster = {};
@@ -108,7 +106,7 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate()) =
                     makeHorzBarGraph(dataMaster, excludeChina);
                 } else {
                     // something to investigate later - why sometimes not all data is there.  Related likely to syncronicity.  Temporary fix: call function generateData again.
-                    generateData(excludeChina);
+                    generateData(excludeChina, date);
                 }
             })
         }

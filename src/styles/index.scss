@@ -45,6 +45,7 @@
 #filters .filtersContainer title {
     display: flex;
     font-weight: bold;
+    padding: 14px;
 }
 
 #filters .filtersContainer {
@@ -131,4 +132,17 @@ text {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
+
+//indicates you can click on bar graph
+rect:hover {
+    cursor: pointer;
 }

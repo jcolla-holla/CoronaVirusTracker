@@ -22,9 +22,6 @@
     <div id=header>
         
         <h1>COVID-19 Tracker</h1>
-        <!-- <h2>Combat hysteria with knowledge</h2> -->
-        <!-- <h3>Your friendly neighborhood guide to global pandemic!</h3> -->
-        <!-- <p>If you know of available data about administered tests, please contact me as I want to incorporate this</p> -->
     </div>
 
 
@@ -50,14 +47,17 @@
                     <div class="bottom">
                         <label id="dateSelect">
                             <div class="top">
-                                <p>Choose Another Date</p> 
+                                <p style="margin:0px;">Choose Another Date</p> 
                                 <input type="date" id="calendarInput" min="2020-01-22">
                             </div>
                         </label>
                         <label id="excludeChina">
-                            Exclude China
+                            <span id="chinaCheckboxLabel">Exclude China</span>
                             <input type="checkbox" id="chinaCheckbox">
+                            <button id="backToCountries">Back to Countries</button>
                         </label>
+                        <!-- <label id="countriesButtonContainer">
+                        </label> -->
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
                         <section class="casesColor">
                             <div class="confirmedCasesColorCircle"></div>
-                            <p>Confirmed Cases</p>
+                            <p>Unresolved Cases</p>
                         </section>
 
                         <section class="recoveriesColor">

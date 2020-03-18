@@ -55,6 +55,17 @@ window.addEventListener("DOMContentLoaded", () => {
     const calendarInput = document.getElementById("calendarInput");
     calendarInput.defaultValue = getYesterdaysDateDefault();
 
+    const countriesButton = document.getElementById("backToCountries")
+    countriesButton.addEventListener("click", () => {
+        let excludeChina;
+        if (chinaCheckbox.checked) {
+            excludeChina = true;
+        } else {
+            excludeChina = false;
+        }
+        generateData(excludeChina, getDate(calendarInput.value));
+    })
+
 
     calendarInput.addEventListener("change", () => {
         handleCalendar(calendarInput);

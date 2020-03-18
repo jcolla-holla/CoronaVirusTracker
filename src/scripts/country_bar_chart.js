@@ -1,5 +1,30 @@
+import {generateData} from './data_manipulation';
+import { getDate} from './date_util';
+
 export const makeCountryBarChart = (countryName, countryData) => {
     let countryArr = countryData;
+    // calendarInput and countriesButton below are used as arguments later on when rendering all countries graph again
+    const calendarInput = document.getElementById("calendarInput");
+    const countriesButton = document.getElementById("backToCountries")
+    const chinaCheckbox = document.getElementById("chinaCheckbox"); 
+    const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
+
+    //ensure tooltips don't persist in buggy way
+    const tooltips = document.getElementsByClassName("tooltip");
+    for (let index = 0; index < tooltips.length; index++) {
+        tooltips[index].remove();
+    }
+
+    let excludeChina;
+    if (chinaCheckbox.checked) {
+        excludeChina = true;
+    } else {
+        excludeChina = false;
+    }
+
+    chinaCheckbox.setAttribute("class", "hide");
+    chinaCheckboxLabel.setAttribute("class", "hide");
+    countriesButton.setAttribute("class", "show");
 
     if (Object.keys(countryData[0]).length === 0) {
         alert("No state, county, or state-level data currently available for " + countryName)
@@ -66,6 +91,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
 
         var tooltip = d3.select("body")
             .append("div")
+            .attr("class", "tooltip")
             .style("position", "absolute")
             .style("font-family", "'Open Sans', sans-serif")
             .style("color", "gray")
@@ -99,15 +125,35 @@ export const makeCountryBarChart = (countryName, countryData) => {
                     return "#264b96"
                 }
             })
-            // .on("mouseover", function (d) {
-            //     return tooltip.style("visibility", "visible").text(`${d.key}: ${d.data[d.key]}`)
-            // })
-            // .on("mousemove", function (d) {
-            //     return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${d.key}: ${d.data[d.key]}`);
-            // })
-            // .on("mouseout", function (d) {
-            //     return tooltip.style("visibility", "hidden");
-            // })
+            .on("mouseover", function (d) {
+                let msg = "";
+                if (d.key === "provinceStateAdjustedCases") {
+                    msg = "Unresolved Cases";
+                } else if (d.key === "provinceStateDeaths") {
+                    msg = "Reported Deaths";
+                } else if (d.key === "provinceStateRecoveries") {
+                    msg = "Reported Recoveries"
+                }
+                return tooltip.style("visibility", "visible").text(`${msg}: ${d.data[d.key]}`)
+            })
+            .on("mousemove", function (d) {
+                let msg = "";
+                if (d.key === "provinceStateAdjustedCases") {
+                    msg = "Unresolved Cases";
+                } else if (d.key === "provinceStateDeaths") {
+                    msg = "Reported Deaths";
+                } else if (d.key === "provinceStateRecoveries") {
+                    msg = "Reported Recoveries"
+                }
+                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${d.data[d.key]}`);
+            })
+            .on("mouseout", function (d) {
+                return tooltip.style("visibility", "hidden");
+            })
+            .on("click", function (d) {
+                tooltip.style("visibility", "hidden");
+                generateData(excludeChina, getDate(calendarInput.value));
+            })
 
         // might need to refactor this
         let xAxis = g => g
