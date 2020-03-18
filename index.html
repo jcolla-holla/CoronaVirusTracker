@@ -31,7 +31,8 @@
     
     <div id=header>
         
-        <h1>COVID-19 Tracker</h1>
+        <!-- <h1>COVID-19 Tracker</h1> -->
+       
     </div>
 
 
@@ -49,7 +50,6 @@
     <div id="app">
         <div id="aboveSvg">
             <div id="filters">
-                <h2 id="asOfTitle"></h2>
                 <div class="filtersContainer">
                     <div class="top">
                         <title>Filters</title> 
@@ -72,9 +72,18 @@
                         </label> -->
                     </div>
                 </div>
-            </div>
 
-            <!-- might need to move this h2 somewhere -->
+                
+
+            </div>
+            <div class="titleContainer">
+                <h2 id="asOfTitle"></h2>
+                <div id="graphTitle">
+                    <!-- the innerHTML of this eleement is modified to "World" or Country Name -->
+                </div>
+                <p>COVID-19 Cases</p>
+            </div>
+            
             
 
             <div id="htmlLegendContainer">
@@ -108,7 +117,8 @@
             <a target="_blank"href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
             <h3 class="about">About</h3>
             <p>A note on the data: the first date of data available from my data source (Johns Hopkins Univ CSSE) is January 22, 2020.  Only the 50 countries with the highest number of total cases are shown in the worldwide country graph.</p>
-            <p>This visualization came from my own frustration around the poor management and visibility into tracking COVID-19 cases.  I am working with a group of epidemiologists and technologists to create a more comprehensive technology solution to address COVID-19 through contact tracing via a voluntary, privacy-centric smartphone app. </p>
+            <p>This visualization came from my own frustration around the poor management and visibility into tracking COVID-19 cases.  I am working with a group of epidemiologists and technologists to create a more comprehensive technology solution to address COVID-19 through contact tracing via a voluntary, privacy-centric smartphone app.  If you want to learn more, check out <a href="https://www.covid-watch.org/">our site</a>.  If you want to get involved, email me (listed below).</p>
+            
             <p>This is not the most robust data visualization of COIVD-19 in the world. If you are looking for more data dashboards for
             COVID-19, the best I have found 
                 <a

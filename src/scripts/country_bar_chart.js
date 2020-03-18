@@ -1,13 +1,17 @@
 import {generateData} from './data_manipulation';
 import { getDate, thousands_separators} from './date_util';
 
-export const makeCountryBarChart = (countryData) => {
+export const makeCountryBarChart = (countryName, countryData) => {
+    debugger
+    
     let countryArr = countryData;
     // calendarInput and countriesButton below are used as arguments later on when rendering all countries graph again
     const calendarInput = document.getElementById("calendarInput");
     const countriesButton = document.getElementById("backToCountries")
     const chinaCheckbox = document.getElementById("chinaCheckbox"); 
     const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
+    const countryDateInput = document.getElementById("calendarInputCountry");
+    const graphTitle = document.getElementById("graphTitle");
 
     //ensure tooltips don't persist in buggy way
     const tooltips = document.getElementsByClassName("tooltip");
@@ -25,6 +29,12 @@ export const makeCountryBarChart = (countryData) => {
     chinaCheckbox.setAttribute("class", "hide");
     chinaCheckboxLabel.setAttribute("class", "hide");
     countriesButton.setAttribute("class", "show");
+    graphTitle.innerHTML = countryName;
+    // countryDateInput.setAttribute("class", "show");
+    // calendarInput.setAttribute("class", "hide");
+
+    // countryDateInput.value = calendarInput.value;
+
 
         // render new country graph
         

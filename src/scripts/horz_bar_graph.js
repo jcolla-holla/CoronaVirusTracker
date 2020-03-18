@@ -17,6 +17,9 @@ export const makeHorzBarGraph = (data, excludeChina) => {
     const chinaCheckbox = document.getElementById("chinaCheckbox"); 
     const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
     const tooltips = document.getElementsByClassName("tooltip");
+    const countryDateInput = document.getElementById("calendarInputCountry");
+    const calendarInput = document.getElementById("calendarInput");
+    const graphTitle = document.getElementById("graphTitle");
 
     // make sure that tooltips don't persist in buggy way
     for (let index = 0; index < tooltips.length; index++) {
@@ -25,7 +28,10 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     chinaCheckbox.setAttribute("class", "show");
     chinaCheckboxLabel.setAttribute("class", "show");
+    // calendarInput.setAttribute("class", "show");
     countriesButton.setAttribute("class", "hide");
+    // countryDateInput.setAttribute("class", "hide");
+    graphTitle.innerHTML = "Global";
 
     // if any bars were there before, remove them
     d3.selectAll("g").remove();
@@ -269,10 +275,9 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
                     if (Object.keys(d.data["Province/State"][0]).length === 0) {
-                        debugger
                         alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
                     } else {
-                        makeCountryBarChart(d.data["Province/State"]);
+                        makeCountryBarChart(d.data["Country/Region"], d.data["Province/State"]);
                     }
                 })
 

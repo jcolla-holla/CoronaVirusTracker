@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    
+    h1 {
+        padding: 20px;
+    }
 }
 
 
@@ -46,6 +51,7 @@
     display: flex;
     font-weight: bold;
     padding: 14px;
+    font-size: 20px;
 }
 
 #filters .filtersContainer {
@@ -184,3 +190,12 @@ rect:hover {
     color: red;
 }
 
+#graphTitle {
+    font-size: 40px;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

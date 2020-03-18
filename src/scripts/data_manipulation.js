@@ -1,9 +1,11 @@
 // this file to format the CSV files as needed to render as desired in graphs
 
-import {getYesterdaysDate} from './date_util';
+import { getYesterdaysDate, getYesterdaysDateDefault} from './date_util';
 import {makeHorzBarGraph} from './horz_bar_graph';
+import { makeCountryBarChart} from './country_bar_chart';
 
-export const generateData = (excludeChina = false, date = getYesterdaysDate()) => {
+export const generateData = (excludeChina = false, date = getYesterdaysDate(), countryName = "") => {
+    console.log("data collection ran")
     let dataMaster = {};
     d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
         .then(data => { //TOTAL CASES
@@ -100,13 +102,18 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate()) =
 
                 // a heading that updates w the selected date displayed to user
                 let title = document.getElementById("asOfTitle")
+                
                 title.innerHTML = `As of ${date}`;
 
                 if (dataMaster["China"].totalRecoveries && dataMaster["China"].totalDeaths) {
-                    makeHorzBarGraph(dataMaster, excludeChina);
+                    if (countryName === "") {
+                        makeHorzBarGraph(dataMaster, excludeChina);
+                    } else {
+                        makeCountryBarChart(countryName, dataMaster[countryName]["Province/State"])
+                    }
                 } else {
                     // something to investigate later - why sometimes not all data is there.  Related likely to syncronicity.  Temporary fix: call function generateData again.
-                    generateData(excludeChina, date);
+                    generateData(excludeChina, date, countryName);
                 }
             })
         }

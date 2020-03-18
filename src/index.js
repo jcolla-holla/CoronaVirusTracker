@@ -19,8 +19,14 @@ function handleClick(checkbox) {
     } else {
         excludeChina = false;
     }
+
     const calendarInput = document.getElementById("calendarInput");
     let date = getDate(calendarInput.value);
+    let yesterday = getYesterdaysDate()
+    // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
+    if (yesterday < date || date < "1/22/20") {
+        date = yesterday;
+    }
     if (date.length === 0) {
         generateData(excludeChina);
     } else {
@@ -38,7 +44,20 @@ function handleCalendar(calendar) {
     } else {
         excludeChina = false;
     }
-    generateData(excludeChina, date);
+
+    let yesterday = getYesterdaysDate()
+    // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
+    if (yesterday < date || date < "1/22/20" ) {
+        date = yesterday;
+        alert("Valid dates are between yesterday and January 22, 2020.  Showing default: yesterday.")
+    }
+
+    const graphTitle = document.getElementById("graphTitle");
+    if (graphTitle.innerHTML !== "Global") {
+        generateData(excludeChina, date, graphTitle.innerHTML);
+    } else {
+        generateData(excludeChina, date);
+    }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
