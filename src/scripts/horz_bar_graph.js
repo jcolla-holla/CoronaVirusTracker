@@ -2,6 +2,7 @@
 
 import { legend } from "d3-color-legend"
 import { makeCountryBarChart} from "./country_bar_chart";
+import { thousands_separators} from "./date_util";
 
 // data
     //  {
@@ -103,6 +104,20 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .range([margin.top, y_axisLength - margin.bottom])
             .padding(0.1)
 
+        
+
+        // sum total cases across all 50 countries shown
+        let sumCases = 0;
+        let sumAdjustedCases = 0;
+        let sumDeaths = 0;
+        let sumRecoveries = 0;
+        for (let index = 0; index < valuesWithoutColumn.length; index++) {
+            sumCases += valuesWithoutColumn[index].totalCases;
+            sumAdjustedCases += valuesWithoutColumn[index].casesMinusDeathsAndRecoveries;
+            sumDeaths += valuesWithoutColumn[index].totalDeaths;
+            sumRecoveries += valuesWithoutColumn[index].totalRecoveries;
+        }
+
         var tooltip = d3.select("body")
             .append("div")
             .attr("class", "tooltip")
@@ -110,8 +125,94 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .style("font-family", "'Open Sans', sans-serif")
             .style("color", "gray")
             .style("font-size", "14px")
-            .style("z-index", "10")
+            .style("z-index", "1")
             .style("visibility", "hidden");
+
+        // attempted to make container to modularize code more but couldn't figure it out quickly so moved on to solution I know works but is not very DRY
+        // var statsContainer = chart.append("div")
+        //     .attr("x", () => {
+        //         return x_axisLength - margin.right
+        //     })
+        //     .attr("y", () => {
+        //         return y_axisLength/4
+        //     })
+        //     .attr("width", 500)
+        //     .attr("height", 500)
+
+        // var totalCases = statsContainer.append("text")
+        //     .attr("class", "totalCases")
+        //     .style("font-family", "'Open Sans', sans-serif")
+        //     .style("color", "black")
+        //     .style("font-size", "14px")
+        //     .style("z-index", "10")
+        //     .text("hey")
+
+
+
+        var totalCases = chart.append("text")
+            .attr("class", "totalCases")
+            .style("font-family", "'Open Sans', sans-serif")
+            .style("color", "green")
+            .style("font-size", "22px")
+            .style("z-index", "10")
+            .style("font-weight", "bold")
+            .attr("x", () => {
+                return x_axisLength - margin.right - 200
+            })
+            .attr("y", () => {
+                return y_axisLength/4
+            })
+            .text(() => {
+                return `Total Cases: ${thousands_separators(sumCases)}`
+            })
+
+        var totalAdjustedCount = chart.append("text")
+            .attr("class", "totalAdjustedCount")
+            .style("font-family", "'Open Sans', sans-serif")
+            .style("color", "black")
+            .style("font-size", "18px")
+            .style("z-index", "10")
+            .attr("x", () => {
+                return x_axisLength - margin.right - 200
+            })
+            .attr("y", () => {
+                return y_axisLength / 4 + 40
+            })
+            .text(() => {
+                return `Unresolved Cases: ${thousands_separators(sumAdjustedCases)}`
+            })
+
+        var totalRecoveries = chart.append("text")
+            .attr("class", "totalRecoveries")
+            .style("font-family", "'Open Sans', sans-serif")
+            .style("color", "black")
+            .style("font-size", "18px")
+            .style("z-index", "10")
+            .attr("x", () => {
+                return x_axisLength - margin.right - 200
+            })
+            .attr("y", () => {
+                return y_axisLength / 4 + 60
+            })
+            .text(() => {
+                return `Reported Recoveries: ${thousands_separators(sumRecoveries)}`
+            })
+
+        var totalDeaths = chart.append("text")
+            .attr("class", "totalDeaths")
+            .style("font-family", "'Open Sans', sans-serif")
+            .style("color", "black")
+            .style("font-size", "18px")
+            .style("z-index", "10")
+            .attr("x", () => {
+                return x_axisLength - margin.right - 200
+            })
+            .attr("y", () => {
+                return y_axisLength / 4 + 80
+            })
+            .text(() => {
+                return `Reported Deaths: ${thousands_separators(sumDeaths)}`
+            })
 
         chart.append("g")
             .selectAll("g")
@@ -159,7 +260,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                     } else if (d.key === "totalRecoveries") {
                         msg = "Reported Recoveries"
                     }
-                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${d.data[d.key]}`);
+                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${thousands_separators(d.data[d.key])}`);
                 })
                 .on("mouseout", function (d) {
                     return tooltip.style("visibility", "hidden");
@@ -171,9 +272,11 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                         debugger
                         alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
                     } else {
-                        makeCountryBarChart(d.data["Country/Region"] ,d.data["Province/State"]);
+                        makeCountryBarChart(d.data["Province/State"]);
                     }
                 })
+
+            
 
     let xAxis = g => g
         .attr("transform", `translate(${margin.left},${margin.top})`)

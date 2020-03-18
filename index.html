@@ -59,6 +59,8 @@
                             <div class="top">
                                 <p style="margin:0px;">Choose Another Date</p> 
                                 <input type="date" id="calendarInput" min="2020-01-22">
+                                <!-- possible addition: -->
+                                <!-- <button>Yesterday</button> -->
                             </div>
                         </label>
                         <label id="excludeChina">
@@ -101,13 +103,24 @@
         
 
     </div>
-    <div class="dataSource">
-        <a target="_blank"href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
-        <p>Site Created By: <a target="_blank" href="https://jessecolligan.com/">Jesse Colligan</a></p>
-        <a target="_blank" class="githubContainer" href="https://github.com/jcolla-holla/CoronaVirusTracker">
-            <img class="github"  src="./mockups/github_PNG20.png" alt="">
-        </a>
-        
+    <div id="footer">
+        <div class="dataSource">
+            <a target="_blank"href="https://github.com/CSSEGISandData/COVID-19">Data Source: Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</a>
+            <h3 class="about">About</h3>
+            <p>A note on the data: the first date of data available from my data source (Johns Hopkins Univ CSSE) is January 22, 2020.  Only the 50 countries with the highest number of total cases are shown in the worldwide country graph.</p>
+            <p>This visualization came from my own frustration around the poor management and visibility into tracking COVID-19 cases.  I am working with a group of epidemiologists and technologists to create a more comprehensive technology solution to address COVID-19 through contact tracing via a voluntary, privacy-centric smartphone app. </p>
+            <p>This is not the most robust data visualization of COIVD-19 in the world. If you are looking for more data dashboards for
+            COVID-19, the best I have found 
+                <a
+                    href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6">this
+                    dashboard from Johns Hopkins</a> (the same source as the data used in my site here).
+            </p>
+            <p>If you have a suggested improvement to make this more valuable for you, email me at jesse.m.colligan@gmail.com.</p>
+            <p>Site Created By: <a target="_blank" href="https://jessecolligan.com/">Jesse Colligan</a></p>
+            <a target="_blank" class="githubContainer" href="https://github.com/jcolla-holla/CoronaVirusTracker">
+                <img class="github"  src="./mockups/github_PNG20.png" alt="">
+            </a>
+        </div>
     </div>
     <!-- <svg id="barChartExample"></svg> -->
     <script>

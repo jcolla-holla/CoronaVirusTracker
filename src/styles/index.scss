@@ -128,25 +128,35 @@ text {
     font-size: 14px;
 }
 
-.dataSource {
+#footer {
     width: 100%;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    justify-content: center;
 
-    p {
-        margin: 20px;
+    .about {
+        margin-top: 30px;
     }
 
-    .github {
-        height: 50px;
-        width: 60px;
-        padding-bottom: 30px;
-    }
+    .dataSource {
+        width: 70%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
 
-    .githubContainer {
-        height: 50px;
-        width: 60px;
+        p {
+            margin: 20px;
+        }
+
+        .github {
+            height: 50px;
+            width: 60px;
+            padding-bottom: 30px;
+        }
+
+        .githubContainer {
+            height: 50px;
+            width: 60px;
+        }
     }
 }
 
@@ -161,11 +171,16 @@ text {
 .tooltip {
     background-color: white;
     border-radius: 4px;
-    padding: 2px;
+    padding: 3px;
+    border: .5px solid gray;
 }
 
 //indicates you can click on bar graph
 rect:hover {
     cursor: pointer;
+}
+
+.totalCases {
+    color: red;
 }
 

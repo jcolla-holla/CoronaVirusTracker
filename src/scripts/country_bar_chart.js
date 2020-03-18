@@ -1,7 +1,7 @@
 import {generateData} from './data_manipulation';
-import { getDate} from './date_util';
+import { getDate, thousands_separators} from './date_util';
 
-export const makeCountryBarChart = (countryName, countryData) => {
+export const makeCountryBarChart = (countryData) => {
     let countryArr = countryData;
     // calendarInput and countriesButton below are used as arguments later on when rendering all countries graph again
     const calendarInput = document.getElementById("calendarInput");
@@ -79,12 +79,93 @@ export const makeCountryBarChart = (countryName, countryData) => {
             .domain(filteredCountryArr.map((provinceState) => provinceState["provinceState"]))
             .range([margin.top, y_axisLength - margin.bottom])
             .padding(0.1)
+
+
+        // get sum of cases for the country
+                // {provinceState: "Henan", provinceStateCases: 1273, provinceStateDeaths: 22, provinceStateRecoveries: 1250}
+        let sumCases = 0;
+        let sumAdjustedCases = 0;
+        let sumDeaths = 0;
+        let sumRecoveries = 0;
+        for (let index = 0; index < filteredCountryArr.length; index++) {
+            sumCases += filteredCountryArr[index].provinceStateCases;
+            sumAdjustedCases += filteredCountryArr[index].provinceStateAdjustedCases;
+            sumDeaths += filteredCountryArr[index].provinceStateDeaths;
+            sumRecoveries += filteredCountryArr[index].provinceStateRecoveries;
+        }
+
+    
  
         var svg = d3.select("#horzBarChart")
             .attr("width", w)
             .attr("height", h)
 
         const chart = svg.append('g');
+
+    var totalCases = chart.append("text")
+        .attr("class", "totalCases")
+        .style("font-family", "'Open Sans', sans-serif")
+        .style("color", "green")
+        .style("font-size", "22px")
+        .style("z-index", "10")
+        .style("font-weight", "bold")
+        .attr("x", () => {
+            return x_axisLength - margin.right - 200
+        })
+        .attr("y", () => {
+            return y_axisLength / 4
+        })
+        .text(() => {
+            return `Total Cases: ${thousands_separators(sumCases)}`
+        })
+
+    var totalAdjustedCount = chart.append("text")
+        .attr("class", "totalAdjustedCount")
+        .style("font-family", "'Open Sans', sans-serif")
+        .style("color", "black")
+        .style("font-size", "18px")
+        .style("z-index", "10")
+        .attr("x", () => {
+            return x_axisLength - margin.right - 200
+        })
+        .attr("y", () => {
+            return y_axisLength / 4 + 40
+        })
+        .text(() => {
+            return `Unresolved Cases: ${thousands_separators(sumAdjustedCases)}`
+        })
+
+    var totalRecoveries = chart.append("text")
+        .attr("class", "totalRecoveries")
+        .style("font-family", "'Open Sans', sans-serif")
+        .style("color", "black")
+        .style("font-size", "18px")
+        .style("z-index", "10")
+        .attr("x", () => {
+            return x_axisLength - margin.right - 200
+        })
+        .attr("y", () => {
+            return y_axisLength / 4 + 60
+        })
+        .text(() => {
+            return `Reported Recoveries: ${thousands_separators(sumRecoveries)}`
+        })
+
+    var totalDeaths = chart.append("text")
+        .attr("class", "totalDeaths")
+        .style("font-family", "'Open Sans', sans-serif")
+        .style("color", "black")
+        .style("font-size", "18px")
+        .style("z-index", "10")
+        .attr("x", () => {
+            return x_axisLength - margin.right - 200
+        })
+        .attr("y", () => {
+            return y_axisLength / 4 + 80
+        })
+        .text(() => {
+            return `Reported Deaths: ${thousands_separators(sumDeaths)}`
+        })
 
         var tooltip = d3.select("body")
             .append("div")
@@ -142,7 +223,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
                 } else if (d.key === "provinceStateRecoveries") {
                     msg = "Reported Recoveries"
                 }
-                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${d.data[d.key]}`);
+                return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px").text(`${msg}: ${thousands_separators(d.data[d.key])}`);
             })
             .on("mouseout", function (d) {
                 return tooltip.style("visibility", "hidden");
