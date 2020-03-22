@@ -45,6 +45,7 @@
 
 #filters {
     display: flex;
+    margin-top: 60px;
 }
 
 #filters .filtersContainer title {
@@ -74,14 +75,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    height: 60px;
+
+    p {
+        font-size: 20px;
+    }
+
+    .top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #calendarInput {
+        font-size: 16px;
+    }
 }
 
 #filters #excludeChina{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    height: 60px;
+
+    #chinaCheckboxLabel {
+        font-size: 22px;
+    }
+
+    #backToCountries{
+       background-color: #264b96;
+       padding: 8px;
+       border-radius: 4px;
+       color: white;
+       font-size: 14px;
+    }
+
 }
 
 
@@ -89,6 +117,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    margin-top: 60px;
 }
 
 #htmlLegend {
@@ -149,6 +178,10 @@ text {
         align-items: center;
         flex-direction: column;
 
+        .dataSourceLink {
+            text-decoration: none;
+        }
+
         p {
             margin: 20px;
         }
@@ -200,3 +233,193 @@ rect:hover {
     align-items: center;
     width: 150px;
 }
+
+
+
+/* ALL OF THIS BELOW STYLES THE STUDENT CHECKBOX */
+/*
+=====
+LEVEL 1. CORE STYLES
+=====
+*/
+
+.toggle{
+  --uiToggleSize: var(--toggleSize, 20px);
+  --uiToggleIndent: var(--toggleIndent, .4em);
+  --uiToggleBorderWidth: var(--toggleBorderWidth, 2px);
+  --uiToggleColor: var(--toggleColor, #000);
+  --uiToggleDisabledColor: var(--toggleDisabledColor, #868e96);
+  --uiToggleBgColor: var(--toggleBgColor, #fff);
+  --uiToggleArrowWidth: var(--toggleArrowWidth, 2px);
+  --uiToggleArrowColor: var(--toggleArrowColor, #fff);
+
+  display: inline-block;
+  position: relative;
+}
+
+#chinaCheckbox{
+  position: absolute;
+  left: -99999px;
+}
+
+.toggle__label{
+  display: inline-flex;
+  cursor: pointer;
+  min-height: var(--uiToggleSize);
+  padding-left: calc(var(--uiToggleSize) + var(--uiToggleIndent));
+}
+
+.toggle__label:before, .toggle__label:after{
+  content: "";
+  box-sizing: border-box;  
+  width: 1em;
+  height: 1em;
+  font-size: var(--uiToggleSize);
+
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.toggle__label:before{
+  border: var(--uiToggleBorderWidth) solid var(--uiToggleColor);
+  z-index: 2;
+}
+
+#chinaCheckbox:disabled ~ .toggle__label:before{
+  border-color: var(--uiToggleDisabledColor);
+}
+
+#chinaCheckbox:focus ~ .toggle__label:before{
+  box-shadow: 0 0 0 2px var(--uiToggleBgColor), 0 0 0px 4px var(--uiToggleColor);
+}
+
+#chinaCheckbox:not(:disabled):checked:focus ~ .toggle__label:after{
+  box-shadow: 0 0 0 2px var(--uiToggleBgColor), 0 0 0px 4px var(--uiToggleColor);
+}
+
+#chinaCheckbox:not(:disabled) ~ .toggle__label:after{
+  background-color: var(--uiToggleColor);
+  opacity: 0;
+}
+
+#chinaCheckbox:not(:disabled):checked ~ .toggle__label:after{
+  opacity: 1;
+}
+
+.toggle__text{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/*
+FOR CHECKBOX ANIMATION:
+The arrow size and position depends from sizes of square because I needed an arrow correct positioning from the top left corner of the element toggle
+*/
+
+.toggle__text:before{
+  content: "";
+  box-sizing: border-box;
+  width: 0;
+  height: 0;
+  font-size: var(--uiToggleSize);
+
+  border-left-width: 0;
+  border-bottom-width: 0;
+  border-left-style: solid;
+  border-bottom-style: solid;
+  border-color: var(--uiToggleArrowColor);
+
+  position: absolute;
+  top: .5428em;
+  left: .2em;
+  z-index: 3;
+
+  transform-origin: left top;
+  transform: rotate(-40deg) skew(10deg);
+}
+
+#chinaCheckbox:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+  width: .5em;
+  height: .25em;
+  border-left-width: var(--uiToggleArrowWidth);
+  border-bottom-width: var(--uiToggleArrowWidth);
+  will-change: width, height;
+  transition: width .1s ease-out .2s, height .2s ease-out;
+}
+
+/*
+=====
+LEVEL 2. PRESENTATION STYLES
+=====
+*/
+
+/* 
+The demo skin
+*/
+
+.toggle__label:before, .toggle__label:after{
+  border-radius: 2px;
+}
+
+/* 
+The animation of switching states
+*/
+
+#chinaCheckbox:not(:disabled) ~ .toggle__label:before,
+#chinaCheckbox:not(:disabled) ~ .toggle__label:after{
+  opacity: 1;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform .2s ease-out;
+}
+
+#chinaCheckbox:not(:disabled) ~ .toggle__label:before{
+  transform: rotateY(0deg);
+  transition-delay: .2s;
+}
+
+#chinaCheckbox:not(:disabled) ~ .toggle__label:after{
+  transform: rotateY(90deg);
+}
+
+#chinaCheckbox:not(:disabled):checked ~ .toggle__label:before{
+  transform: rotateY(-90deg);
+  transition-delay: 0s;
+}
+
+#chinaCheckbox:not(:disabled):checked ~ .toggle__label:after{
+  transform: rotateY(0deg);
+  transition-delay: .2s;
+}
+
+.toggle__text:before{
+  opacity: 0;
+}
+
+#chinaCheckbox:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+  opacity: 1;
+  transition: opacity .1s ease-out .3s, width .1s ease-out .5s, height .2s ease-out .3s;
+}
+
+
+
+/*
+=====
+LEVEL 3. SETTINGS
+=====
+*/
+
+/* 
+primary green: #527318 
+secondary green: #899857
+highlight 1: #feb72b
+highlight 2: #ffe75e
+    */
+
+.toggle{
+  --toggleColor: #bf202e;
+  --toggleBgColor: #FFDE00;
+  --toggleSize: 22px;
+}
+

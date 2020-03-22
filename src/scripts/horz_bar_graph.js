@@ -26,15 +26,19 @@ export const makeHorzBarGraph = (data, excludeChina) => {
         tooltips[index].remove();
     }
 
+    // if any bars were there before, remove them
+    d3.selectAll("g").remove();
+    countriesButton.setAttribute("class", "hide");
+    // countryDateInput.setAttribute("class", "hide");
+
+
     chinaCheckbox.setAttribute("class", "show");
     chinaCheckboxLabel.setAttribute("class", "show");
     // calendarInput.setAttribute("class", "show");
-    countriesButton.setAttribute("class", "hide");
-    // countryDateInput.setAttribute("class", "hide");
+    
     graphTitle.innerHTML = "Global";
 
-    // if any bars were there before, remove them
-    d3.selectAll("g").remove();
+    
 
     let keysWithoutColumn = Object.keys(data).slice(0, -1);
     let valuesWithoutColumn = Object.values(data).slice(0, -1);
@@ -169,7 +173,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 return y_axisLength/4
             })
             .text(() => {
-                return `Total Cases: ${thousands_separators(sumCases)}`
+                return `Total Reported Cases: ${thousands_separators(sumCases)}`
             })
 
         var totalAdjustedCount = chart.append("text")
@@ -185,7 +189,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 return y_axisLength / 4 + 40
             })
             .text(() => {
-                return `Unresolved Cases: ${thousands_separators(sumAdjustedCases)}`
+                return `Unresolved Reported Cases: ${thousands_separators(sumAdjustedCases)}`
             })
 
         var totalRecoveries = chart.append("text")
@@ -249,7 +253,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 .on("mouseover", function(d) {
                     let msg = "";
                     if (d.key === "casesMinusDeathsAndRecoveries") {
-                        msg = "Unresolved Cases";
+                        msg = "Unresolved Reported Cases";
                     } else if (d.key === "totalDeaths") {
                         msg = "Reported Deaths";
                     } else if (d.key === "totalRecoveries") {
@@ -260,7 +264,7 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 .on("mousemove", function (d) {
                     let msg = "";
                     if (d.key === "casesMinusDeathsAndRecoveries") {
-                        msg = "Unresolved Cases";
+                        msg = "Unresolved Reported Cases";
                     } else if (d.key === "totalDeaths") {
                         msg = "Reported Deaths";
                     } else if (d.key === "totalRecoveries") {

@@ -10,6 +10,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
     const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
     const countryDateInput = document.getElementById("calendarInputCountry");
     const graphTitle = document.getElementById("graphTitle");
+    const checkboxOutline = document.getElementsByClassName("toggle");
 
     //ensure tooltips don't persist in buggy way
     const tooltips = document.getElementsByClassName("tooltip");
@@ -24,6 +25,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
         excludeChina = false;
     }
 
+    checkboxOutline[0].setAttribute("class", "hide");
     chinaCheckbox.setAttribute("class", "hide");
     chinaCheckboxLabel.setAttribute("class", "hide");
     countriesButton.setAttribute("class", "show");
@@ -124,7 +126,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
             return y_axisLength / 4
         })
         .text(() => {
-            return `Total Cases: ${thousands_separators(sumCases)}`
+            return `Total Reported Cases: ${thousands_separators(sumCases)}`
         })
 
     var totalAdjustedCount = chart.append("text")
@@ -140,7 +142,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
             return y_axisLength / 4 + 40
         })
         .text(() => {
-            return `Unresolved Cases: ${thousands_separators(sumAdjustedCases)}`
+            return `Unresolved Reported Cases: ${thousands_separators(sumAdjustedCases)}`
         })
 
     var totalRecoveries = chart.append("text")
@@ -214,7 +216,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
             .on("mouseover", function (d) {
                 let msg = "";
                 if (d.key === "provinceStateAdjustedCases") {
-                    msg = "Unresolved Cases";
+                    msg = "Unresolved Reported Cases";
                 } else if (d.key === "provinceStateDeaths") {
                     msg = "Reported Deaths";
                 } else if (d.key === "provinceStateRecoveries") {
@@ -225,7 +227,7 @@ export const makeCountryBarChart = (countryName, countryData) => {
             .on("mousemove", function (d) {
                 let msg = "";
                 if (d.key === "provinceStateAdjustedCases") {
-                    msg = "Unresolved Cases";
+                    msg = "Unresolved Reported Cases";
                 } else if (d.key === "provinceStateDeaths") {
                     msg = "Reported Deaths";
                 } else if (d.key === "provinceStateRecoveries") {
@@ -237,6 +239,9 @@ export const makeCountryBarChart = (countryName, countryData) => {
                 return tooltip.style("visibility", "hidden");
             })
             .on("click", function (d) {
+                // this resets the URL path
+                window.location.search = "";
+
                 tooltip.style("visibility", "hidden");
                 generateData(excludeChina, getDate(calendarInput.value));
             })

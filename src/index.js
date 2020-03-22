@@ -85,6 +85,9 @@ window.addEventListener("DOMContentLoaded", () => {
             excludeChina = false;
         }
 
+        // this resets the URL path
+        window.location.search = "";
+
         let date = getDate(calendarInput.value);
         let yesterday = getYesterdaysDate()
         // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
