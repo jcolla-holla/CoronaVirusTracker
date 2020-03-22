@@ -106,6 +106,7 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate(), c
 
                 let paramCountry = window.location.search.slice(window.location.search.indexOf("=") + 1);
 
+
                 if (dataMaster["China"].totalRecoveries && dataMaster["China"].totalDeaths) {
                     if (countryName === "" && paramCountry === "") {
                         makeHorzBarGraph(dataMaster, excludeChina);

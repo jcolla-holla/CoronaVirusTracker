@@ -25,7 +25,9 @@ export const makeCountryBarChart = (countryName, countryData) => {
         excludeChina = false;
     }
 
-    checkboxOutline[0].setAttribute("class", "hide");
+    if (checkboxOutline[0]) {
+        checkboxOutline[0].setAttribute("class", "hide");
+    }
     chinaCheckbox.setAttribute("class", "hide");
     chinaCheckboxLabel.setAttribute("class", "hide");
     countriesButton.setAttribute("class", "show");
