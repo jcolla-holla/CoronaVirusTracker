@@ -104,11 +104,18 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate(), c
                 
                 title.innerHTML = `As of ${date}`;
 
+                let paramCountry = window.location.search.slice(window.location.search.indexOf("=") + 1);
+                debugger
+
                 if (dataMaster["China"].totalRecoveries && dataMaster["China"].totalDeaths) {
-                    if (countryName === "") {
+                    if (countryName === "" && paramCountry === "") {
                         makeHorzBarGraph(dataMaster, excludeChina);
                     } else {
-                        makeCountryBarChart(countryName, dataMaster[countryName]["Province/State"])
+                        if (paramCountry !== "") {
+                            makeCountryBarChart(paramCountry, dataMaster[countryName]["Province/State"])
+                        } else {
+                            makeCountryBarChart(countryName, dataMaster[countryName]["Province/State"])
+                        }
                     }
                 } else {
                     // something to investigate later - why sometimes not all data is there.  Related likely to syncronicity.  Temporary fix: call function generateData again.
