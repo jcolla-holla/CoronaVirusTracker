@@ -12,9 +12,40 @@ export const getYesterdaysDate = () => {
     return month + "/" + day + "/" + year;
 }
 
+export const getTwoDaysAgoDate = () => {
+    // if the today's date is '1'
+    // create a date object using Date constructor 
+    var dateObj = new Date();
+
+    // subtract one day from current time                           
+    dateObj.setDate(dateObj.getDate() - 2);
+
+    let day = dateObj.getDate();
+    let month = dateObj.getMonth() + 1;
+    let year = (dateObj.getYear() + 1900).toString().slice(2, 4);
+    return month + "/" + day + "/" + year;
+}
+
 export const getYesterdaysDateDefault = () => {
     var dateObj = new Date();                           
     dateObj.setDate(dateObj.getDate() - 1);
+
+    let day = dateObj.getDate();
+    let month = dateObj.getMonth() + 1;
+    if (day.toString().length === 1) {
+        day = "0" + day;
+    }
+    if (month.toString().length === 1) {
+        month = "0" + month;
+    }
+
+    let year = (dateObj.getYear() + 1900).toString();
+    return year + "-" + month + "-" + day;
+}
+
+export const getTwoDaysAgoDateDefault = () => {
+    var dateObj = new Date();                           
+    dateObj.setDate(dateObj.getDate() - 2);
 
     let day = dateObj.getDate();
     let month = dateObj.getMonth() + 1;

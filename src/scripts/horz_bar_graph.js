@@ -17,8 +17,6 @@ export const makeHorzBarGraph = (data, excludeChina) => {
     const chinaCheckbox = document.getElementById("chinaCheckbox"); 
     const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
     const tooltips = document.getElementsByClassName("tooltip");
-    const countryDateInput = document.getElementById("calendarInputCountry");
-    const calendarInput = document.getElementById("calendarInput");
     const graphTitle = document.getElementById("graphTitle");
 
     // make sure that tooltips don't persist in buggy way
@@ -114,8 +112,6 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .range([margin.top, y_axisLength - margin.bottom])
             .padding(0.1)
 
-        
-
         // sum total cases across all 50 countries shown
         let sumCases = 0;
         let sumAdjustedCases = 0;
@@ -137,27 +133,6 @@ export const makeHorzBarGraph = (data, excludeChina) => {
             .style("font-size", "14px")
             .style("z-index", "1")
             .style("visibility", "hidden");
-
-        // attempted to make container to modularize code more but couldn't figure it out quickly so moved on to solution I know works but is not very DRY
-        // var statsContainer = chart.append("div")
-        //     .attr("x", () => {
-        //         return x_axisLength - margin.right
-        //     })
-        //     .attr("y", () => {
-        //         return y_axisLength/4
-        //     })
-        //     .attr("width", 500)
-        //     .attr("height", 500)
-
-        // var totalCases = statsContainer.append("text")
-        //     .attr("class", "totalCases")
-        //     .style("font-family", "'Open Sans', sans-serif")
-        //     .style("color", "black")
-        //     .style("font-size", "14px")
-        //     .style("z-index", "10")
-        //     .text("hey")
-
-
 
         var totalCases = chart.append("text")
             .attr("class", "totalCases")
@@ -275,14 +250,14 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 .on("mouseout", function (d) {
                     return tooltip.style("visibility", "hidden");
                 })
-                // // to create a function that makes a country show page
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
-                    if (Object.keys(d.data["Province/State"][0]).length === 0) {
-                        alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
-                    } else {
-                        makeCountryBarChart(d.data["Country/Region"], d.data["Province/State"]);
-                    }
+                    alert("On March 23, 2020 the Johns Hopkins data set this graph uses was significantly altered and country-specific data on recoveries is not trustworthy enough in my view to show currently.  I am monitoring this dataset daily.  If it becomes more stable and I have enough confidence in it, I will again release the country-specific graph feature.  Thanks - Jesse")
+                    // if (Object.keys(d.data["Province/State"][0]).length === 0) {
+                    //     alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
+                    // } else {
+                    //     makeCountryBarChart(d.data["Country/Region"], d.data["Province/State"]);
+                    // }
                 })
 
             

@@ -1,8 +1,8 @@
 import "./styles/index.scss";
-import { getYesterdaysDate, getDate, getYesterdaysDateDefault} from './scripts/date_util';
-import {makeBarChart} from './scripts/d3_bar_chart';
-import { makeHorzBarChart} from './scripts/stacked_horz_bar_chart';
-import { makeHorzBarGraph} from './scripts/horz_bar_graph';
+import { getYesterdaysDate, getDate, getYesterdaysDateDefault, getTwoDaysAgoDate, getTwoDaysAgoDateDefault} from './scripts/date_util';
+// import {makeBarChart} from './scripts/d3_bar_chart';
+// import { makeHorzBarChart} from './scripts/stacked_horz_bar_chart';
+// import { makeHorzBarGraph} from './scripts/horz_bar_graph';
 import { generateData} from './scripts/data_manipulation';
 
 // ** DATA: ** // 
@@ -22,12 +22,14 @@ function handleClick(checkbox) {
 
     const calendarInput = document.getElementById("calendarInput");
     let date = getDate(calendarInput.value);
-    let yesterday = getYesterdaysDate()
+    // let yesterday = getYesterdaysDate();
+    let twoDaysAgo = getTwoDaysAgoDate();
     // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
 
-    // NEED TO UPDATE LOGIC TO REFLECT HANDLECALENAR ALSO
-    if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
-        date = yesterday;
+    // updated on March 26 2020 to swap yesterday with twoDaysAgo as Johns Hopkins data recency seems to have shifted
+    // if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
+    if (((twoDaysAgo.split("/")[0] <= date.split("/")[0]) && (twoDaysAgo.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
+        date = twoDaysAgo;
     }
     if (date.length === 0) {
         generateData(excludeChina);
@@ -47,11 +49,12 @@ function handleCalendar(calendar) {
         excludeChina = false;
     }
 
-    let yesterday = getYesterdaysDate()
+    let yesterday = getYesterdaysDate();
+    let twoDaysAgo = getTwoDaysAgoDate();
     // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
-    if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
-        date = yesterday;
-        alert("Valid dates are between yesterday and January 22, 2020.  Showing default: yesterday.")
+    if (((twoDaysAgo.split("/")[0] <= date.split("/")[0]) && (twoDaysAgo.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
+        date = twoDaysAgo;
+        alert("Valid dates are between 1/22/2020" + " and " + twoDaysAgo + "20.  Showing default: " + twoDaysAgo + "20.")
     }
 
     const graphTitle = document.getElementById("graphTitle");
@@ -74,7 +77,7 @@ window.addEventListener("DOMContentLoaded", () => {
     })
 
     const calendarInput = document.getElementById("calendarInput");
-    calendarInput.defaultValue = getYesterdaysDateDefault();
+    calendarInput.defaultValue = getTwoDaysAgoDateDefault();
 
     const countriesButton = document.getElementById("backToCountries")
     countriesButton.addEventListener("click", () => {
@@ -90,10 +93,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
         let date = getDate(calendarInput.value);
         let yesterday = getYesterdaysDate()
+        let twoDaysAgo = getTwoDaysAgoDate();
         // this conditional protects against buggy date renderings if the user forces the day with the arrow keys above yesterdays date
-        if (((yesterday.split("/")[0] <= date.split("/")[0]) && (yesterday.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
-            date = yesterday;
-            calendarInput.value = getYesterdaysDateDefault();
+        if (((twoDaysAgo.split("/")[0] <= date.split("/")[0]) && (twoDaysAgo.split("/")[1]) < parseInt(date.split("/")[1])) || date < "1/22/20") {
+            date = twoDaysAgo;
+            calendarInput.value = getTwoDaysAgoDateDefault();
         }
 
         generateData(excludeChina, date);
@@ -105,68 +109,4 @@ window.addEventListener("DOMContentLoaded", () => {
     })
 
     generateData();
-
-    // below prints out all values by country in plain HTML
-    
-    // // CONFIRMED CASES
-    // const confirmedContainer = document.createElement("div");
-    // confirmedContainer.classList.add("container");
-    // confirmedContainer.innerHTML = `<h2>Confirmed Cases</h2>`;
-
-    // d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
-    //     .then(data => {
-    //         data.forEach(row => {
-    //             // console.log to see the whole object and how to manipulate it
-    //             // console.log(row);
-
-    //             let rowRender = document.createElement("div");
-    //             rowRender.innerHTML = `<p>${row['Country/Region']} - ${row['Province/State']} - ${row[getYesterdaysDate()]} </p>`
-    //             confirmedContainer.append(rowRender);
-    //         })
-    //     })
-
-    // document.body.append(confirmedContainer);
-
-
-    
-    // // DEATHS
-    // const deathsContainer = document.createElement("div");
-    // deathsContainer.classList.add("container");
-    // deathsContainer.innerHTML = `<h2>Deaths</h2>`;
-    // d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv')
-    //     .then(data => {
-    //         data.forEach(row => {
-    //             let rowRender = document.createElement("div");
-    //             rowRender.innerHTML = `<p>${row['Country/Region']} - ${row['Province/State']} - ${row[getYesterdaysDate()]} </p>`
-    //             deathsContainer.append(rowRender);
-    //         })
-    //     })
-
-    // document.body.append(deathsContainer);
-
-    // // RECOVERED CASES
-    // const recoveredContainer = document.createElement("div");
-    // recoveredContainer.classList.add("container");
-    // recoveredContainer.innerHTML = `<h2>Recovered Cases</h2>`;
-
-    // d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv')
-    //     .then(data => {
-    //         data.forEach(row => {
-    //             let rowRender = document.createElement("div");
-    //             rowRender.innerHTML = `<p>${row['Country/Region']} - ${row['Province/State']} - ${row[getYesterdaysDate()]} </p>`
-    //             recoveredContainer.append(rowRender);
-
-    //         })
-    //     })
-    
-    //     document.body.append(recoveredContainer);
-        
-    //     // placeholders playing around with d3:
-    //     d3.selectAll("h1").style("color", "purple")
-    //     d3.selectAll("h2").style("color", "blue")
-
-        // this was an example:
-        // makeBarChart();
-
-
 });
