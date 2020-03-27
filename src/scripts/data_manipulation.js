@@ -4,7 +4,7 @@ import { getYesterdaysDate, getYesterdaysDateDefault, getTwoDaysAgoDate} from '.
 import {makeHorzBarGraph} from './horz_bar_graph';
 import { makeCountryBarChart} from './country_bar_chart';
 
-export const generateData = (excludeChina = false, date = getTwoDaysAgoDate(), countryName = "") => {
+export const generateData = (excludeChina = false, date = getYesterdaysDate(), countryName = "") => {
     //  the blacklist accounts for cases that the Johns Hopkins data is formatted in error-inducing way and clearly is a data counting error.  ie - confirmed cases = -1.  Recoveries = undefined, etc.  Better to not report shaky data at all than make assumptions. 
     let blacklist = ["Cape Verde", "Cruise Ship", "Kosovo", "Diamond Princess", "Belize", "Laos", "Libya", "West Bank and Gaza", "Guinea-Bissau", "Mali", "Saint Kitts and Nevis"]
 
