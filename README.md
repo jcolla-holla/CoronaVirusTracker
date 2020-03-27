@@ -32,6 +32,9 @@ Existing/similar Solutions:
    
  ## Preview
  
+   * Global Preview
+ ![](mockups/gif_overview/global_preview.gif)
+ 
    * Country-Specific Preview
  ![](mockups/gif_overview/country_preview.gif)
  
