@@ -42,10 +42,13 @@ Existing/similar Solutions:
  ## Architecture and Technologies
    * [D3.js](https://github.com/d3/d3/wiki)
  
- ## Will Possibly Add:
+ ## Possible Improvements:
   * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
   * Testing data by state in the US using: https://covidtracking.com/api/
   * Sign up your email to get sent when a confirmed case is reported near you
   * Self-diagnosis step by step walkthrough that ends suggesting a specific action, ie "go to the ER", "continue to look for X symptom over the next 7 days", "no need to worry!"
+  
+## Final Note:
+I'm working with a group of ~20 epidemiologists and technologists to build a smartphone app intervention for COVID-19.  See what we are [up to here](https://www.covid-watch.org/).  If you are interested in getting involved, reach out to me. 
  
  
