@@ -93,10 +93,9 @@ export const generateData = (excludeChina = false, date = getTwoDaysAgoDate(), c
                         // do nothing
                     } else {
                         if (dataMaster[rowCountryRegion].totalRecoveries) {
-                            // + "20" to date b/c the recoveries CSV file date format as of March 26 2020 is "3/22/2020" while deaths and cases is "1/24/20".  This may change and need adjusting
-                            dataMaster[rowCountryRegion].totalRecoveries += parseInt(row[date + "20"])
+                            dataMaster[rowCountryRegion].totalRecoveries += parseInt(row[date])
                         } else {
-                            dataMaster[rowCountryRegion].totalRecoveries = parseInt(row[date + "20"]) 
+                            dataMaster[rowCountryRegion].totalRecoveries = parseInt(row[date]) 
                         };
 
                         // set provinceState array values
@@ -116,7 +115,9 @@ export const generateData = (excludeChina = false, date = getTwoDaysAgoDate(), c
                 let title = document.getElementById("asOfTitle")
                 
                 title.innerHTML = `As of ${date}`;
+                debugger
 
+                console.log('data collection ran')
                 let paramCountry = window.location.search.slice(window.location.search.indexOf("=") + 1);
 
                 if (dataMaster["China"].totalDeaths) {

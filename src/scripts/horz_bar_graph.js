@@ -252,12 +252,12 @@ export const makeHorzBarGraph = (data, excludeChina) => {
                 })
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
-                    alert("On March 23, 2020 the Johns Hopkins data set this graph uses was significantly altered and country-specific data on recoveries is not trustworthy enough in my view to show currently.  I am monitoring this dataset daily.  If it becomes more stable and I have enough confidence in it, I will again release the country-specific graph feature.  Thanks - Jesse")
-                    // if (Object.keys(d.data["Province/State"][0]).length === 0) {
-                    //     alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
-                    // } else {
-                    //     makeCountryBarChart(d.data["Country/Region"], d.data["Province/State"]);
-                    // }
+                    // alert("On March 23, 2020 the Johns Hopkins data set this graph uses was significantly altered and country-specific data on recoveries is not trustworthy enough in my view to show currently.  I am monitoring this dataset daily.  If it becomes more stable and I have enough confidence in it, I will again release the country-specific graph feature.  Thanks - Jesse")
+                    if (Object.keys(d.data["Province/State"][0]).length === 0) {
+                        alert("No state, county, or state-level data currently available for " + d.data["Country/Region"])
+                    } else {
+                        makeCountryBarChart(d.data["Country/Region"], d.data["Province/State"]);
+                    }
                 })
 
             
