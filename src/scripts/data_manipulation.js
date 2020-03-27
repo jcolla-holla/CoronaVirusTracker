@@ -115,7 +115,6 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate(), c
                 let title = document.getElementById("asOfTitle")
                 
                 title.innerHTML = `As of ${date}`;
-                debugger
 
                 console.log('data collection ran')
                 let paramCountry = window.location.search.slice(window.location.search.indexOf("=") + 1);
