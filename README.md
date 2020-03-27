@@ -30,13 +30,11 @@ Existing/similar Solutions:
      * Province/State - bar graph/calendar graph of cases and recoveries over time
      
    
- ## Wireframes
+ ## Preview
  
-   * Landing Page Overview
- ![](mockups/Landing%20Overview.png)
+   * Country-Specific Preview
+ ![](mockups/gif_overview/country_preview.gif)
  
-   * Country Show Page
- ![](mockups/Country%20Show%20Page.png)
  
  ## Architecture and Technologies
    * [D3.js](https://github.com/d3/d3/wiki)
