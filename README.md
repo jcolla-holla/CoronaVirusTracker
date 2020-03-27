@@ -33,7 +33,7 @@ Existing/similar Solutions:
  ## Preview
  
    * Country-Specific Preview
- ![](mockups/gif_preview/country_preview.gif)
+ ![](mockups/gif_overview/country_preview.gif)
  
  
  ## Architecture and Technologies
