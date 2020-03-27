@@ -1,6 +1,5 @@
-// modeled heavily on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
+// modeled on: https://observablehq.com/@d3/stacked-horizontal-bar-chart
 
-import { legend } from "d3-color-legend"
 import { makeCountryBarChart} from "./country_bar_chart";
 import { thousands_separators} from "./date_util";
 
@@ -13,6 +12,10 @@ import { thousands_separators} from "./date_util";
     //  }
 
 export const makeHorzBarGraph = (data, excludeChina) => {
+    if (excludeChina) {
+        delete data["China"];
+    }
+
     const countriesButton = document.getElementById("backToCountries")
     const chinaCheckbox = document.getElementById("chinaCheckbox"); 
     const chinaCheckboxLabel = document.getElementById("chinaCheckboxLabel"); 
@@ -56,23 +59,13 @@ export const makeHorzBarGraph = (data, excludeChina) => {
 
     
         // numCountries to be used to set height of svg
-        var numCountries = valuesWithoutColumn.length;
+        // var numCountries = valuesWithoutColumn.length;
 
-        // China's numbers skews the numbers majorly since it is MUCH larger than other countries. This boolean simply removes it
-        let removeChina = excludeChina;
+        // China's numbers skews the numbers majorly since it is MUCH larger than other countries in February 2020. This boolean simply removes it
+        var maxValue = d3.max(valuesWithoutColumn, function(d) {
+            return +d.totalCases;
+        })
 
-        if (removeChina) {
-            var numCountries = valuesWithoutColumn.length - 1;
-            var maxValue = d3.max(valuesWithoutColumn.slice(1), function (d) {
-                return +d.totalCases;
-            })
-            valuesWithoutColumn = valuesWithoutColumn.slice(1);
-        } else {
-            var numCountries = valuesWithoutColumn.length;
-            var maxValue = d3.max(valuesWithoutColumn, function(d) {
-                return +d.totalCases;
-            })
-        }
 
     //the order of the stacks for each country is determined by the order of .keys
     let series = d3.stack()

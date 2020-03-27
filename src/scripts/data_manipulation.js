@@ -116,7 +116,6 @@ export const generateData = (excludeChina = false, date = getYesterdaysDate(), c
                 
                 title.innerHTML = `As of ${date}`;
 
-                console.log('data collection ran')
                 let paramCountry = window.location.search.slice(window.location.search.indexOf("=") + 1);
 
                 if (dataMaster["China"].totalDeaths) {
