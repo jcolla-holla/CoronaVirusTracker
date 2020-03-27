@@ -33,11 +33,13 @@ Existing/similar Solutions:
  ## Preview
  
    * ### Global Preview
+ 
  ![](mockups/gif_overview/global_preview.gif)
  
    * ### Country-Specific Preview
      * Note: the Johns Hopkins data was reformatted as of late March to not include US states even though it contained them previously.  I'm hopeful they add this data back in shortly.  As such, the demo as shown below may not be available for the United States currently though it is available for other countries (China, Australia, etc.).
- ![](mockups/gif_overview/country_preview.gif)
+
+![](mockups/gif_overview/country_preview.gif)
  
  
  ## Architecture and Technologies
