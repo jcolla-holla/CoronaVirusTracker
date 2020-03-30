@@ -6,20 +6,17 @@ Coronavirus dominates news cycles around the world, with varying levels of conce
 
 ## Data Source
 
-A challenge given the extremely fluid global situation surrounding coronavirus (not to mention the possibility that some government reporting agencies may not be completely truthful in their statistics reporting), is finding a trustworthy data source that is frequently updated and acceessible (for free) via API.  Luckily, researchers at Johns Hopkins University and elsewhere have quickly created exactly that!  Note: if you are aware of other or better API sources for similar information, please get in contact with me.  
-
-  * [example table here](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports/02-25-2020.csv)
-
-
-## Existing Similar Solutions
-
-There are some existing sites that serve a similar function, listed below.  However, none of the websites that I found provide a robust data interactivity capability that might be useful to a user asking questions like: "are there reported cases near my home city/state/country?".  Nor do they provide some kind of alert mechanism for if confirmed cases are reported near their location.  Coronavirus Tracker aims to address these two questions.
-
-Existing/similar Solutions:
-  * [Johns Hopkins University Coronavirus dashboard](https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
-  * [visalist.io Map](https://visalist.io/emergency/coronavirus)
-  * [World Health Organization (WHO) interactive map](https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd)
-  * [World o Meter.com](https://www.worldometers.info/coronavirus/)
+A challenge given the extremely fluid global situation surrounding coronavirus (not to mention the possibility that some government reporting agencies may not be completely truthful in their statistics reporting), is finding a trustworthy data source that is frequently updated and acceessible (for free) via API.  Luckily, researchers at Johns Hopkins University and elsewhere have quickly created exactly that!  Note: if you are aware of other or better API sources for similar information, please get in contact with me.  [Data Source example (global confirmed cases)](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv).  
+  
+  | Province/State               	| Country/Region 	| Lat      	| Long     	| 3/19/20 	| 3/20/20 	| 3/21/20 	| 3/22/20 	| 3/23/20 	| 3/24/20 	| 3/25/20 	|
+|------------------------------	|----------------	|----------	|----------	|---------	|---------	|---------	|---------	|---------	|---------	|---------	|
+|                              	| Argentina      	| -38.4161 	| -63.6167 	| 97      	| 128     	| 158     	| 266     	| 301     	| 387     	| 387     	|
+|                              	| Armenia        	| 40.0691  	| 45.0382  	| 115     	| 136     	| 160     	| 194     	| 235     	| 249     	| 265     	|
+| Australian Capital Territory 	| Australia      	| -35.4735 	| 149.0124 	| 4       	| 6       	| 9       	| 19      	| 3       	| 39      	| 39      	|
+| New South Wales              	| Australia      	| -33.8688 	| 151.2093 	| 307     	| 353     	| 436     	| 669     	| 669     	| 818     	| 1029    	|
+| Northern Territory           	| Australia      	| -12.4634 	| 130.8456 	| 1       	| 3       	| 3       	| 5       	| 5       	| 6       	| 6       	|
+| Queensland                   	| Australia      	| -28.0167 	| 153.4    	| 144     	| 184     	| 221     	| 259     	| 319     	| 397     	| 443     	|
+  
   
   
  ## Functionality and MVP
@@ -90,6 +87,17 @@ Existing/similar Solutions:
   * Testing data by state in the US using: https://covidtracking.com/api/
   * Sign up your email to get sent when a confirmed case is reported near you
   * Self-diagnosis step by step walkthrough that ends suggesting a specific action, ie "go to the ER", "continue to look for X symptom over the next 7 days", "no need to worry!"
+  
+  
+## Existing Similar Solutions
+
+There are some existing sites that serve a similar function, listed below.  However, none of the websites that I found provide a robust data interactivity capability that might be useful to a user asking questions like: "are there reported cases near my home city/state/country?".  Nor do they provide some kind of alert mechanism for if confirmed cases are reported near their location.  Coronavirus Tracker aims to address these two questions.
+
+Existing/similar Solutions:
+  * [Johns Hopkins University Coronavirus dashboard](https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
+  * [visalist.io Map](https://visalist.io/emergency/coronavirus)
+  * [World Health Organization (WHO) interactive map](https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd)
+  * [World o Meter.com](https://www.worldometers.info/coronavirus/)
   
 ## Final Note:
 I'm working with a group of ~20 epidemiologists and technologists to build a smartphone app intervention for COVID-19.  See what we are [up to here](https://www.covid-watch.org/).  If you are interested in getting involved, reach out to me. 
