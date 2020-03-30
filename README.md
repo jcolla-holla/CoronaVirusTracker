@@ -23,11 +23,49 @@ Existing/similar Solutions:
   
   
  ## Functionality and MVP
-   * Present Johns Hopkins CSV files data using D3.js
-     
    * Filter by:
      * Country - bar graph/calendar of cases and recoveries over time
      * Province/State - bar graph/calendar graph of cases and recoveries over time
+     
+   * Present Johns Hopkins CSV files data using D3.js (sample for one of several CSV file aggregation below:)
+ ```javascript
+    d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
+        .then(data => { //TOTAL CASES
+            data.forEach(row => {                
+                // ex values (rowCountryRegion):
+                // Thailand  // US  // France
+                let rowCountryRegion = row['Country/Region'];
+                let provinceState = row["Province/State"];
+
+                if (blacklist.includes(rowCountryRegion)) {
+                    // do nothing
+                } else {
+                    if (dataMaster[rowCountryRegion]) {
+                        if (provinceState !== "") {
+                            let provinceStateObj = new Object();
+                            Object.assign(provinceStateObj, { provinceState: provinceState, provinceStateCases: parseInt(row[date]) });
+                            dataMaster[rowCountryRegion]["Province/State"].push(provinceStateObj);
+                        }
+                        dataMaster[rowCountryRegion]["Province/State"][provinceState]
+                        dataMaster[rowCountryRegion].totalCases += parseInt(row[date])
+                    } else {
+                        let provinceStateObj = new Object();
+                        //if row["Province/State"] is "", it means that there is no province/state data for that row (and likely the country is as granular data as we have)
+                        if (provinceState !== "") {
+                            Object.assign(provinceStateObj, {provinceState: provinceState, provinceStateCases: parseInt(row[date])});
+                        }
+
+                        dataMaster[rowCountryRegion] = { 
+                            "Province/State": [provinceStateObj], 
+                            totalCases: parseInt(row[date]), 
+                            totalDeaths: undefined, 
+                            totalRecoveries: undefined 
+                        };
+                    }
+                }
+            })
+        })
+```
      
    
  ## Preview
@@ -45,7 +83,7 @@ Existing/similar Solutions:
  ## Architecture and Technologies
    * [D3.js](https://github.com/d3/d3/wiki) for data wrangling and DOM manipulation for graph creation
    * JavaScript for date selection logic
-   * Webpack to bundle scripts and tranlsate JS as needed
+   * Webpack to bundle scripts and translate JS as needed
  
  ## Possible Improvements:
   * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
