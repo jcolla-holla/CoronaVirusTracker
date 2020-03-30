@@ -43,7 +43,9 @@ Existing/similar Solutions:
  
  
  ## Architecture and Technologies
-   * [D3.js](https://github.com/d3/d3/wiki)
+   * [D3.js](https://github.com/d3/d3/wiki) for data wrangling and DOM manipulation for graph creation
+   * JavaScript for date selection logic
+   * Webpack to bundle scripts and tranlsate JS as needed
  
  ## Possible Improvements:
   * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
