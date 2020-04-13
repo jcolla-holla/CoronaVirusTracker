@@ -78,9 +78,9 @@ A challenge given the extremely fluid global situation surrounding coronavirus (
  
  
  ## Architecture and Technologies
-   * [D3.js](https://github.com/d3/d3/wiki) for data wrangling and DOM manipulation for graph creation
+   * [D3.js](https://github.com/d3/d3/wiki) 5.15.0 for data wrangling and DOM manipulation for graph creation
    * JavaScript for date selection logic
-   * Webpack to bundle scripts and translate JS as needed
+   * Webpack 4.42.0 to bundle scripts and translate JS as needed
  
  ## Possible Improvements:
   * Calendar view - gives a new visual to understand trends over time, [example](https://observablehq.com/@d3/calendar-view) 
