@@ -100,6 +100,6 @@ Existing/similar Solutions:
   * [World o Meter.com](https://www.worldometers.info/coronavirus/)
   
 ## Final Note:
-I'm working with a group of ~20 epidemiologists and technologists to build a smartphone app intervention for COVID-19.  See what we are [up to here](https://www.covid-watch.org/).  If you are interested in getting involved, reach out to me. 
+I'm working with a group of hundreds of epidemiologists and technologists to build a smartphone app intervention for COVID-19.  See what we are [up to here](https://www.covid-watch.org/).  If you are interested in getting involved, reach out to me. 
  
  
