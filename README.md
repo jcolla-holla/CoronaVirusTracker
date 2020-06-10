@@ -6,7 +6,7 @@ Coronavirus dominates news cycles around the world, with varying levels of conce
 
 ## Data Source
 
-A challenge given the extremely fluid global situation surrounding coronavirus (not to mention the possibility that some government reporting agencies may not be completely truthful in their statistics reporting), is finding a trustworthy data source that is frequently updated and acceessible (for free) via API.  Luckily, researchers at Johns Hopkins University and elsewhere have quickly created exactly that!   [Data Source example (global confirmed cases)](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv).  
+A challenge given the extremely fluid global situation surrounding coronavirus at the time of writing (not to mention the possibility that some government reporting agencies may not be completely truthful in their statistics reporting), is finding a trustworthy data source that is frequently updated and acceessible (for free) via API.  Luckily, researchers at Johns Hopkins University and elsewhere have quickly created exactly that!   [Data Source example (global confirmed cases)](https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv).  
   
   | Province/State               	| Country/Region 	| Lat      	| Long     	| 3/19/20 	| 3/20/20 	| 3/21/20 	| 3/22/20 	| 3/23/20 	| 3/24/20 	| 3/25/20 	|
 |------------------------------	|----------------	|----------	|----------	|---------	|---------	|---------	|---------	|---------	|---------	|---------	|
