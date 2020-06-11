@@ -1,4 +1,4 @@
-# [CoronaVirusTracker live link](http://covid19trackerapp.com/)
+# [live link](http://covid19trackerapp.com/)
 
 ## Background
 
